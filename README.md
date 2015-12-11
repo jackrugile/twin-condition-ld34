@@ -1,2 +1,2 @@
-# ld34
-Ludum Dare 34
+# Game Name
+## Ludum Dare 34
