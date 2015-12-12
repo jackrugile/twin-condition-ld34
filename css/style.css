@@ -1,0 +1,40 @@
+html,
+body {
+	height: 100%;
+	overflow: hidden;
+}
+
+body {
+	background: #111;
+	background: radial-gradient(#444, #111);
+}
+
+canvas {
+	-webkit-animation: fade-in 1000ms forwards;
+	animation: fade-in 1000ms forwards;
+	background: #fff;
+	bottom: 0;
+	left: 0;
+	margin: auto;
+	position: absolute;
+	right: 0;
+	top: 0;
+}
+
+@-webkit-keyframes fade-in {
+	0% {
+		opacity: 0;
+	}
+	100% {
+		opacity: 1;
+	}
+}
+
+@keyframes fade-in {
+	0% {
+		opacity: 0;
+	}
+	100% {
+		opacity: 1;
+	}
+}
