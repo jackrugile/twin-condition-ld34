@@ -24,22 +24,6 @@ growing numbers
 	arrange two panels to create the sum on the right
 
 
-double slide control tower builder
-	as obstacle passes you, it stops on the other side of the map and build up
-	build up to 1/3 or 1/2 on both sides to finish "growing" and beat the level
-	each side has three lives?
-	three lanes or 5 lanes, left goes left direction, right goes right direction
-	stagger blocks on either side, or in sync? or both?
-	use easing for char movement and block dropping?
-	after beating a level, drop all blocks down, change color?
-	make characters bobbing up and down, rotating? interesting movement in some way
-	debris or light particles falling down for polish
-	play with light beams on bricks for polish
-	overlay over whole game for polish?
-	how is it scored? timed and one death just light super hexagon?
-
-
-
 /*==============================================================================
 
 Two Button Controls
@@ -97,3 +81,111 @@ top down
 platformer
 puzzle
 endless runner
+
+
+
+
+
+
+
+/*==============================================================================
+
+GAME 1 - Double Tower Grower Avoider
+
+==============================================================================*/
+
+GENERAL
+	as obstacle passes you, it stops on the other side of the map and build up
+	build up to 1/3 or 1/2 on both sides to finish "growing" and beat the level
+	each side has three lives?
+	three lanes or 5 lanes, left goes left direction, right goes right direction
+	stagger blocks on either side, or in sync? or both?
+	use easing for char movement and block dropping?
+	after beating a level, drop all blocks down, change color?
+	make characters bobbing up and down, rotating? interesting movement in some way
+	
+CONTROLS
+	A/D, left/right, mouse left/mouse right, maybe other bindings
+	left movement moves left hero to the left
+		when hitting the wall, wrap to other side? or reverse direction? Or swap direction?
+	right movement moves right hero to the right
+			when hitting the wall, wrap to other side? or reverse direction? Or swap direction?
+
+GAMEPLAY
+	how is it scored?
+		timed and one death just light super hexagon?
+		or just simple brick count?
+		many lives?
+		or par based, least amount of mistakes (hit by block, missed baddie)
+	difficulty and color change after building up to halfway point
+		how can difficulty ramp up?
+			faster blocks?
+			build higher?
+			more columns?
+			faster, stronger baddies?
+			different perspective?
+				move to top of level, then bottom, then top, etc.
+	the main objective is the avoidance of the blocks
+	but there should be a secondary one where you have to stay underneath something to destroy it
+	these baddies can be separated from, or mixed with the normal flow
+	maybe make them a lot slower, but take more time to kill
+	can't let any through
+
+STATES
+	menu
+	play
+	gameover
+
+LEVELS
+	one progressive level, with breaks/changes one tower reaches halfway, or?
+	experiment with more columns, are more columns harder or easier?
+		might have to ramp other properties up to match number of cols
+
+	distinct levels
+		1 - 2 col | 0 baddies    | 3 tall  | faster | less delay
+		2 - 2 col | 0 baddies    | 4 tall  | faster | less delay
+		3 - 3 col | some baddies | 4 tall  | faster | less delay
+		4 - 3 col | some baddies | 6 tall  | faster | less delay
+		5 - 4 col | more baddies | 6 tall  | faster | less delay
+		6 - 4 col | more baddies | 12 tall | faster | less delay
+		7 - 5 col | most baddies | 12 tall | fastest | least delay
+		8 - 5 col | most baddies | 24 tall | fastest | least delay
+
+	distinct levels - for alternate model 2, faster and smaller delay on each level up
+		1 - 2 col | 3 tall  | 
+		2 - 2 col | 4 tall  | 
+		3 - 3 col | 4 tall  | 
+		4 - 3 col | 6 tall  | 
+		5 - 4 col | 6 tall  | 
+		6 - 4 col | 12 tall | 
+		7 - 5 col | 12 tall | 
+		8 - 5 col | 16 tall | 
+
+AUDIO
+
+POLISH
+	debris or light particles falling down
+	play with light beams on bricks
+	overlay over whole game
+	dust when blocks hit
+	movement trails for heros and blocks
+	screenshake
+	make bricks complementary color of level to stand out more?
+	light up current path subtly?
+	snap to larger mode if screen estate is available
+	is it a city, with clouds and a sun?
+	is it in space, with planets and stars?
+	is it underwanter, with bubbles, and stoof?
+
+ALTERNATE MODEL 1
+	left and right are actually left and right
+	stop moving to shoot
+	hold down both for another ability
+	one char
+
+ALTERNATE MODEL 2
+	still two chars with same move mechanic
+	instead, left character does all the dodging
+	instead, right character does all the shooting
+	right is kind of like an alternate dimension, ghost mode
+	as the bricks land and are added on the left, they are mirrored and appear on the right
