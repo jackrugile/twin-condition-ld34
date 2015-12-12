@@ -1,0 +1,99 @@
+/*==============================================================================
+
+Growing
+
+==============================================================================*/
+
+grow a tree
+grow a sphere
+grow a tower
+	blocks bouncing from side to side
+	have to press button when it lines up
+	better score for closer alignment
+	combo points if you don't let it hit wall twice or three times
+	secondary action shoots
+
+enemy is growing and you must stop it
+
+grow up
+grow down
+grow right
+grow left
+
+growing numbers
+	arrange two panels to create the sum on the right
+
+
+double slide control tower builder
+	as obstacle passes you, it stops on the other side of the map and build up
+	build up to 1/3 or 1/2 on both sides to finish "growing" and beat the level
+	each side has three lives?
+	three lanes or 5 lanes, left goes left direction, right goes right direction
+	stagger blocks on either side, or in sync? or both?
+	use easing for char movement and block dropping?
+	after beating a level, drop all blocks down, change color?
+	make characters bobbing up and down, rotating? interesting movement in some way
+	debris or light particles falling down for polish
+	play with light beams on bricks for polish
+	overlay over whole game for polish?
+	how is it scored? timed and one death just light super hexagon?
+
+
+
+/*==============================================================================
+
+Two Button Controls
+
+==============================================================================*/
+
+two arrows keys
+right click and left click
+mousemove plus two button controls
+two rendered buttons to click on screen
+
+
+two keys / two mouse buttons
+	each controls an action on half of the screen
+	they can both be similar actions the same/differing environment
+	or they can continue to change and get harder
+	can swap from top/bot to left/right, or always be a rotating view point in a square or circle
+	maybe stay left and right so that you don't lose context of what you're controlling
+
+
+hit button for trigger
+or hold button for lift or sustained control
+
+use button not in a boolean way
+but use it to switch between 3 states
+3 x 2 = 6
+
+switch between four directions
+
+
+direction/jump
+direction/shoot
+jump/shoot
+
+double endless runner
+
+1. toggle selection of something, turret
+2. hold down to rotate turret
+
+
+1. jump
+2. toggle/size
+use this to fit through cracks or eat enemies
+
+
+
+
+/*==============================================================================
+
+Genre
+
+==============================================================================*/
+
+top down
+platformer
+puzzle
+endless runner
