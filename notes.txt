@@ -4,23 +4,39 @@ General
 
 ==============================================================================*/
 
-include both themes
+PRIORITY 1
+	ugly prototype with all functionality
+	single level
+PRIORITY 2
+	level tuning
+	sound effects
+PRIORITY 3
+	music
+	browser testing
+	polish
+	particles
+	texture
+	lighting
+	blending
+	level colors
+	screenshake
 
-
-
-
-/*==============================================================================
-
-Launch
-
-==============================================================================*/
-
-name game
-upload to github
-upload to jackrugile
-
-
-
+	juice!
+PRIORITY 4 / LAUNCH
+	name game
+	describe game
+		description
+		goals
+		controls
+		misc notes
+		dev tech
+	upload to github
+	upload to jackrugile
+	post ludum dare submission blog post
+	screenshots
+	video demo
+	post mortem blog post
+	vote on games!
 
 /*==============================================================================
 
