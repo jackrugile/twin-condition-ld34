@@ -19,7 +19,7 @@ $.block.prototype.init = function( opt ) {
 			{
 				alpha: 1
 			},
-			1,
+			0.5,
 			'linear'
 		);
 	}
@@ -32,10 +32,12 @@ $.block.prototype.step = function() {
 
 $.block.prototype.render = function() {
 	$.ctx.a( this.alpha );
-	$.ctx.fillStyle( '#fff' );
+	if( this.type === 1 ) {
+		$.ctx.fillStyle( '#333' );
+	} else {
+		$.ctx.fillStyle( '#eee' );
+	}
 	$.ctx.fillRect( this.x, this.y, this.width, this.height );
-	$.ctx.fillStyle( '#222' );
-	$.ctx.fillRect( this.x + 1, this.y + 1, this.width - 2, this.height - 2 );
 	$.ctx.ra();
 };
 

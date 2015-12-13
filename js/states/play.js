@@ -7,6 +7,16 @@ Core
 $.statePlay = {};
 
 $.statePlay.create = function() {
+	this.swapGradient = this.createRadialGradient(
+		$.game.width * 0.75,
+		$.game.height * 0.5,
+		0,
+		$.game.width * 0.75,
+		$.game.height * 0.5,
+		$.game.height
+	);
+	this.swapGradient.addColorStop( 0, '#f06' );
+	this.swapGradient.addColorStop( 0, '#f06' );
 };
 
 $.statePlay.enter = function() {
@@ -92,13 +102,19 @@ $.statePlay.step = function() {
 };
 
 $.statePlay.render = function() {
-	$.ctx.clear( '#fff' );
+	$.ctx.clear( '#eee' );
+
+	this.renderBackground();
 	
 	this.blocks.each( 'render' );
 	this.enemies.each( 'render' );
 	this.bullets.each( 'render' );
 	this.hero1.render();
 	this.hero2.render();
+
+	this.renderForeground();
+
+	$.game.renderOverlay();
 };
 
 $.statePlay.mousedown = function( e ) {
@@ -217,4 +233,19 @@ $.statePlay.gamewin = function() {
 $.statePlay.gameover = function() {
 	this.gameoverActive = true;
 	$.game.setState( $.statePlay );
+};
+
+$.statePlay.renderBackground = function() {
+	$.ctx.fillStyle( '#333' );
+	$.ctx.fillRect( $.game.width / 2, 0, $.game.width / 2, $.game.height );
+};
+
+$.statePlay.renderForeground = function() {
+	/*$.ctx.save();
+	$.ctx.globalCompositeOperation( 'overlay' );
+	$.ctx.fillStyle( '#f00' );
+	$.ctx.beginPath();
+	$.ctx.arc( 600, 150, 200, 0, Math.PI * 2 );
+	$.ctx.fill();
+	$.ctx.restore();*/
 };

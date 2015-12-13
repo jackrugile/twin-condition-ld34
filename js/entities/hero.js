@@ -83,6 +83,11 @@ $.hero.prototype.setXTarget = function( xForce ) {
 };
 
 $.hero.prototype.move = function() {
+
+	var sound = $.game.playSound( 'move1' );
+	$.game.sound.setVolume( sound, 0.4 );
+	$.game.sound.setPlaybackRate( sound, $.rand( 0.9, 1.1 ) );
+
 	if( this.type === 1 ) {
 		if( this.position === 0 ) {
 			this.position = this.levelData.cols - 1;

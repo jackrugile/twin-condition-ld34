@@ -33,11 +33,11 @@ $.levels = [
 		hits: 1,
 		interval: {
 			block: 2000,
-			enemy: 4000
+			enemy: 3000
 		},
 		duration: {
 			block: 4000,
-			enemy: 8000
+			enemy: 12000
 		},
 		colors: {
 			left: 200,

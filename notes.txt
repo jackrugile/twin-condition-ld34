@@ -5,8 +5,6 @@ General
 ==============================================================================*/
 
 PRIORITY 1
-	ugly prototype with all functionality
-		is it fun?
 	single level
 PRIORITY 2
 	level tuning

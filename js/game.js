@@ -25,6 +25,40 @@ $.game.create = function() {
 	// default level
 	this.level = 1;
 	this.buildHeight = this.height / 3;
+
+	// images
+	this.loadImages(
+		'overlay1.jpg',
+		'overlay2.jpg',
+		'overlay3.jpg',
+		'overlay4.jpg',
+		'overlay5.jpg',
+		'overlay6.jpg',
+		'specks1.png'
+	);
+
+	// sounds
+	this.loadSounds(
+		'move1'
+	);
+
+	this.overlayTimer = {
+		current: 0,
+		target: 1,
+		index: 0,
+		max: 5
+	};
+
+	this.vignetteGradient = $.ctx.createRadialGradient(
+		this.width / 2,
+		this.height / 2,
+		0,
+		this.width / 2,
+		this.height / 2,
+		this.height
+	);
+	this.vignetteGradient.addColorStop( 0, '#fff' );
+	this.vignetteGradient.addColorStop( 1, '#000' );
 };
 
 $.game.ready = function() {
@@ -58,3 +92,32 @@ $.game.manageTime = function( dt ) {
 	this.timeMs += this.dtMs;
 	this.timeNorm += this.dtNorm;
 }
+
+$.game.renderOverlay = function() {
+	if( this.overlayTimer.current >= this.overlayTimer.target ) {
+		if( this.overlayTimer.index === this.overlayTimer.max ) {
+			this.overlayTimer.index = 0;
+		} else {
+			this.overlayTimer.index++;
+		}
+		this.overlayTimer.current = 0;
+	} else {
+		this.overlayTimer.current++;
+	}
+
+	$.ctx.a( 0.1 );
+	$.ctx.drawImage( this.images[ 'overlay' + ( this.overlayTimer.index + 1 ) ], 0, 0 );
+	$.ctx.ra();
+
+	$.ctx.save();
+	$.ctx.a( 0.75 );
+	$.ctx.globalCompositeOperation( 'overlay' );
+	$.ctx.drawImage( this.images[ 'specks1' ], 0, 0 );
+	$.ctx.restore();
+
+	$.ctx.save();
+	$.ctx.globalCompositeOperation( 'overlay' );
+	$.ctx.fillStyle( this.vignetteGradient );
+	$.ctx.fillRect( 0, 0, this.width, this.height );
+	$.ctx.restore();
+};
