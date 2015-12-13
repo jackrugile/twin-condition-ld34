@@ -107,6 +107,8 @@ POLISH
 	make characters bobbing up and down, rotating? interesting movement in some way
 	gamepad controls?
 	change background color with css to match level?
+	highlights for enemies
+	use COLOR or OVERLAY for color splash on right?
 	on lose
 		explode blocks?
 	on win?

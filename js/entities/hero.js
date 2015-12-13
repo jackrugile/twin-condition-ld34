@@ -59,8 +59,10 @@ $.hero.prototype.render = function() {
 	$.ctx.save();
 	$.ctx.translate( this.x, this.yRender );
 	if( this.type === 1 ) {
+		$.ctx.rotate( $.game.time );
 		$.ctx.fillStyle( 'hsl(' + this.levelData.color + ', 50%, 55%)' );
 	} else {
+		$.ctx.rotate( -$.game.time );
 		$.ctx.fillStyle( '#fff' );
 	}
 	$.ctx.fillRect( -this.width / 2, -this.height / 2, this.width, this.height );

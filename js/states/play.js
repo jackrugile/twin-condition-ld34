@@ -49,15 +49,15 @@ $.statePlay.enter = function() {
 
 	// setup right color gradient
 	this.swapGradient = $.ctx.createRadialGradient(
-		$.game.width * 0.75,
+		$.game.width * 1,
 		$.game.height * 0.5,
 		0,
-		$.game.width * 0.75,
+		$.game.width * 1,
 		$.game.height * 0.5,
-		$.game.width
+		$.game.width * 0.9
 	);
-	this.swapGradient.addColorStop( 0, 'hsla(' + ( this.levelData.color + 150 ) + ', 100%, 50%, 1)' );
-	this.swapGradient.addColorStop( 1, 'hsla(' + ( this.levelData.color + 150 ) + ', 100%, 50%, 0)' );
+	this.swapGradient.addColorStop( 0, 'hsla(' + ( this.levelData.color + 120 ) + ', 100%, 50%, 1)' );
+	this.swapGradient.addColorStop( 1, 'hsla(' + ( this.levelData.color + 120 ) + ', 100%, 50%, 0)' );
 
 	// setup left guide gradient
 	this.leftGuideGradient = $.ctx.createLinearGradient(
@@ -84,8 +84,18 @@ $.statePlay.enter = function() {
 	// setup block colors
 	this.leftBlockLight = 'hsl(' + this.levelData.color + ', 50%, 70%)';
 	this.leftBlockDark = 'hsl(' + this.levelData.color + ', 50%, 60%)';
-	this.rightBlockLight = 'hsl(' + this.levelData.color + ', 50%, 70%)';
-	this.rightBlockDark = 'hsl(' + this.levelData.color + ', 50%, 60%)';
+	this.rightBlockLight = 'hsl(' + ( this.levelData.color ) + ', 50%, 85%)';
+	this.rightBlockDark = 'hsl(' + ( this.levelData.color ) + ', 50%, 75%)';
+
+	// setup block gradient
+	this.blockGradient = $.ctx.createLinearGradient(
+		this.blockWidth,
+		0,
+		0,
+		this.blockHeight
+	);
+	this.blockGradient.addColorStop( 0, 'hsla(0, 0%, 100%, 0.3)' );
+	this.blockGradient.addColorStop( 1, 'hsla(0, 0%, 100%, 0)' );
 
 	// game status
 	this.gamewinFlag = false;
@@ -114,6 +124,7 @@ $.statePlay.leave = function() {
 	this.swapGradient = null;
 	this.rightGuideGradient = null;
 	this.rightGuideGradient = null;
+	this.blockGradient = null;
 };
 
 $.statePlay.step = function() {
@@ -146,9 +157,10 @@ $.statePlay.render = function() {
 	this.hero1.render();
 	this.hero2.render();
 
-	this.renderForeground();
 
 	$.game.renderOverlay();
+
+	this.renderForeground();
 };
 
 $.statePlay.mousedown = function( e ) {
@@ -206,10 +218,33 @@ $.statePlay.manageBlocks = function() {
 			yTarget = $.game.height - ( this.rowCurrent ) * height,
 			duration = this.levelData.duration.block,
 			number = this.blocksCreated,
-			isFinal = ( this.blocksCreated === this.blocksTotal )
+			isFinal = ( this.blocksCreated === this.blocksTotal );
+
+		var color,
+			colorChange;
+
+		if( this.rowCurrent % 2 === 0 ) {
+			if( cell % 2 === 0) {
+				color = this.leftBlockLight;
+				colorChange = this.rightBlockLight;
+			} else {
+				color = this.leftBlockDark;
+				colorChange = this.rightBlockDark;
+			}
+		} else {
+			if( cell % 2 !== 0) {
+				color = this.leftBlockLight;
+				colorChange = this.rightBlockLight;
+			} else {
+				color = this.leftBlockDark;
+				colorChange = this.rightBlockDark;
+			}
+		}
 
 		this.blocks.create({
 			type: type,
+			color: color,
+			colorChange: colorChange,
 			x: x,
 			y: y,
 			yTarget: yTarget,
@@ -232,7 +267,7 @@ $.statePlay.manageBlocks = function() {
 
 $.statePlay.manageEnemies = function() {
 	this.enemyTimer += $.game.dtMs;
-	if( this.enemyTimer >= this.levelData.interval.enemy && !this.rowsCompleted ) {
+	if( this.enemyTimer >= this.levelData.interval.enemy && !this.gameoverFlag && !this.gamewinFlag ) {
 		// choose random row cell
 		var cell = $.randInt( 0, this.levelData.cols - 1 )
 
@@ -330,8 +365,9 @@ $.statePlay.renderBackground = function() {
 $.statePlay.renderForeground = function() {
 	// right color gradient
 	$.ctx.save();
-	$.ctx.globalCompositeOperation( 'overlay' );
+	$.ctx.globalCompositeOperation( 'color' );
 	$.ctx.fillStyle( this.swapGradient );
-	$.ctx.fillRect( $.game.width / 2, 0, $.game.width / 2, $.game.height );
+	//$.ctx.fillRect( $.game.width / 2, 0, $.game.width / 2, $.game.height );
+	$.ctx.fillRect( 0, 0, $.game.width, $.game.height );
 	$.ctx.restore();
 };

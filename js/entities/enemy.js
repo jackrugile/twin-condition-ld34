@@ -25,6 +25,12 @@ $.enemy.prototype.step = function() {
 		return;
 	}
 
+	if( $.game.state.gameoverFlag || $.game.state.gamewinFlag ) {
+		this.destroy();
+		$.game.state.enemies.release( this );
+		return
+	}
+
 	var i = $.game.state.blocks.length;
 	while( i-- ) {
 		var block = $.game.state.blocks.alive[ i ];

@@ -32,12 +32,23 @@ $.block.prototype.step = function() {
 
 $.block.prototype.render = function() {
 	$.ctx.a( this.alpha );
-	if( this.type === 1 ) {
-		$.ctx.fillStyle( 'hsl(' + $.game.state.levelData.color + ', 55%, 70%)' );
-	} else {
-		$.ctx.fillStyle( '#fff' );
-	}
+
+	// render main block
+	$.ctx.fillStyle ( this.color );
 	$.ctx.fillRect( this.x, this.y, this.width, this.height );
+
+	// render highlight
+	$.ctx.save();
+	$.ctx.translate( this.x, this.y );
+	$.ctx.fillStyle ( $.game.state.blockGradient );
+	$.polygon([
+		{ x: 0, y: 0 },
+		{ x: this.width, y: 0 },
+		{ x: 0, y: this.height }
+	]);
+	$.ctx.fill();
+	$.ctx.restore();
+
 	$.ctx.ra();
 };
 
@@ -60,6 +71,7 @@ $.block.prototype.land = function() {
 
 		$.game.state.blocks.create({
 			type: 2,
+			color: this.colorChange,
 			x: this.x + $.game.width / 2,
 			y: this.y,
 			width: this.width,

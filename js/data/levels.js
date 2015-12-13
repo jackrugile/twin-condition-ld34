@@ -9,6 +9,7 @@
 	8 - 6 col | 16 tall | 4 hit kills
 
 	maybe always one hit kills
+	send two enemies at a time?
 */
 
 $.levels = [
@@ -29,7 +30,7 @@ $.levels = [
 	// level 1 
 	{
 		cols: 3,
-		rows: 3,
+		rows: 4,
 		hits: 1,
 		interval: {
 			block: 2000,
@@ -39,7 +40,7 @@ $.levels = [
 			block: 4000,
 			enemy: 12000
 		},
-		color: Math.random() * 360
-		//color: 220
+		//color: Math.random() * 360
+		color: 220
 	}
 ];
