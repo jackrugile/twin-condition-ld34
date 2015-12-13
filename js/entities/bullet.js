@@ -61,7 +61,7 @@ $.bullet.prototype.render = function() {
 	$.ctx.a( this.alpha );
 	$.ctx.save();
 	$.ctx.translate( this.x, this.y );
-	$.ctx.fillStyle( 'limegreen' );
+	$.ctx.fillStyle( '#fff' );
 	$.polygon( this.polygon );
 	$.ctx.fill();
 	$.ctx.restore();

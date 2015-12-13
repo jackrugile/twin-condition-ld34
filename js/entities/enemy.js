@@ -52,7 +52,7 @@ $.enemy.prototype.step = function() {
 $.enemy.prototype.render = function() {
 	$.ctx.save();
 	$.ctx.translate( this.x, this.y );
-	$.ctx.fillStyle( 'dodgerblue' );
+	$.ctx.fillStyle( '#fff' );
 	$.polygon( this.polygon );
 	$.ctx.fill();
 	$.ctx.restore();

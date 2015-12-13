@@ -33,9 +33,9 @@ $.block.prototype.step = function() {
 $.block.prototype.render = function() {
 	$.ctx.a( this.alpha );
 	if( this.type === 1 ) {
-		$.ctx.fillStyle( '#333' );
+		$.ctx.fillStyle( '#859bdb' );
 	} else {
-		$.ctx.fillStyle( '#eee' );
+		$.ctx.fillStyle( '#fff' );
 	}
 	$.ctx.fillRect( this.x, this.y, this.width, this.height );
 	$.ctx.ra();

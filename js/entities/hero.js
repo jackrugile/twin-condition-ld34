@@ -58,7 +58,11 @@ $.hero.prototype.step = function() {
 $.hero.prototype.render = function() {
 	$.ctx.save();
 	$.ctx.translate( this.x, this.yRender );
-	$.ctx.fillStyle( 'tomato' );
+	if( this.type === 1 ) {
+		$.ctx.fillStyle( '#425ff6' );
+	} else {
+		$.ctx.fillStyle( '#fff' );
+	}
 	$.ctx.fillRect( -this.width / 2, -this.height / 2, this.width, this.height );
 	$.ctx.restore();
 };

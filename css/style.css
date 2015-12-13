@@ -5,8 +5,8 @@ body {
 }
 
 body {
-	background: #111;
-	background: radial-gradient(#444, #111);
+	background: #000;
+	background: radial-gradient(#333, #000);
 }
 
 canvas {

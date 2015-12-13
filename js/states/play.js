@@ -7,16 +7,16 @@ Core
 $.statePlay = {};
 
 $.statePlay.create = function() {
-	this.swapGradient = this.createRadialGradient(
-		$.game.width * 0.75,
+	this.swapGradient = $.ctx.createRadialGradient(
+		$.game.width * 0.95,
 		$.game.height * 0.5,
 		0,
-		$.game.width * 0.75,
+		$.game.width * 0.95,
 		$.game.height * 0.5,
-		$.game.height
+		$.game.width
 	);
-	this.swapGradient.addColorStop( 0, '#f06' );
-	this.swapGradient.addColorStop( 0, '#f06' );
+	this.swapGradient.addColorStop( 0, '#f00' );
+	this.swapGradient.addColorStop( 1, 'transparent' );
 };
 
 $.statePlay.enter = function() {
@@ -236,16 +236,15 @@ $.statePlay.gameover = function() {
 };
 
 $.statePlay.renderBackground = function() {
-	$.ctx.fillStyle( '#333' );
+	$.ctx.fillStyle( '#4d65aa' );
 	$.ctx.fillRect( $.game.width / 2, 0, $.game.width / 2, $.game.height );
 };
 
 $.statePlay.renderForeground = function() {
-	/*$.ctx.save();
+	this.swapGradient
+	$.ctx.save();
 	$.ctx.globalCompositeOperation( 'overlay' );
-	$.ctx.fillStyle( '#f00' );
-	$.ctx.beginPath();
-	$.ctx.arc( 600, 150, 200, 0, Math.PI * 2 );
-	$.ctx.fill();
-	$.ctx.restore();*/
+	$.ctx.fillStyle( this.swapGradient );
+	$.ctx.fillRect( 0, 0, $.game.width, $.game.height );
+	$.ctx.restore();
 };

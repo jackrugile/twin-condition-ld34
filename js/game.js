@@ -105,7 +105,7 @@ $.game.renderOverlay = function() {
 		this.overlayTimer.current++;
 	}
 
-	$.ctx.a( 0.1 );
+	$.ctx.a( 0.075 );
 	$.ctx.drawImage( this.images[ 'overlay' + ( this.overlayTimer.index + 1 ) ], 0, 0 );
 	$.ctx.ra();
 
