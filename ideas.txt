@@ -106,6 +106,7 @@ POLISH
 	make left and right complementary?
 	make characters bobbing up and down, rotating? interesting movement in some way
 	gamepad controls?
+	change background color with css to match level?
 	on lose
 		explode blocks?
 	on win?

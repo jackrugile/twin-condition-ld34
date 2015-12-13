@@ -33,7 +33,7 @@ $.block.prototype.step = function() {
 $.block.prototype.render = function() {
 	$.ctx.a( this.alpha );
 	if( this.type === 1 ) {
-		$.ctx.fillStyle( '#859bdb' );
+		$.ctx.fillStyle( 'hsl(' + $.game.state.levelData.color + ', 55%, 70%)' );
 	} else {
 		$.ctx.fillStyle( '#fff' );
 	}

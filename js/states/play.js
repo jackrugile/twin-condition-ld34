@@ -7,16 +7,6 @@ Core
 $.statePlay = {};
 
 $.statePlay.create = function() {
-	this.swapGradient = $.ctx.createRadialGradient(
-		$.game.width * 0.95,
-		$.game.height * 0.5,
-		0,
-		$.game.width * 0.95,
-		$.game.height * 0.5,
-		$.game.width
-	);
-	this.swapGradient.addColorStop( 0, '#f00' );
-	this.swapGradient.addColorStop( 1, 'transparent' );
 };
 
 $.statePlay.enter = function() {
@@ -57,6 +47,47 @@ $.statePlay.enter = function() {
 		levelData: this.levelData
 	});
 
+	// setup right color gradient
+	this.swapGradient = $.ctx.createRadialGradient(
+		$.game.width * 0.75,
+		$.game.height * 0.5,
+		0,
+		$.game.width * 0.75,
+		$.game.height * 0.5,
+		$.game.width
+	);
+	this.swapGradient.addColorStop( 0, 'hsla(' + ( this.levelData.color + 150 ) + ', 100%, 50%, 1)' );
+	this.swapGradient.addColorStop( 1, 'hsla(' + ( this.levelData.color + 150 ) + ', 100%, 50%, 0)' );
+
+	// setup left guide gradient
+	this.leftGuideGradient = $.ctx.createLinearGradient(
+		0,
+		0,
+		0,
+		$.game.height
+	);
+	this.leftGuideGradient.addColorStop( 0, 'hsla(' + this.levelData.color + ', 60%, 80%, 0)' );
+	this.leftGuideGradient.addColorStop( 0.666, 'hsla(' + this.levelData.color + ', 60%, 80%, 1)' );
+	this.leftGuideGradient.addColorStop( 1, 'hsla(' + this.levelData.color + ', 60%, 80%, 0)' );
+
+	// setup left guide gradient
+	this.rightGuideGradient = $.ctx.createLinearGradient(
+		0,
+		0,
+		0,
+		$.game.height
+	);
+	this.rightGuideGradient.addColorStop( 0, 'hsla(' + this.levelData.color + ', 50%, 55%, 0)' );
+	this.rightGuideGradient.addColorStop( 0.666, 'hsla(' + this.levelData.color + ', 50%, 55%, 1)' );
+	this.rightGuideGradient.addColorStop( 1, 'hsla(' + this.levelData.color + ', 50%, 55%, 0)' );
+
+	// setup block colors
+	this.leftBlockLight = 'hsl(' + this.levelData.color + ', 50%, 70%)';
+	this.leftBlockDark = 'hsl(' + this.levelData.color + ', 50%, 60%)';
+	this.rightBlockLight = 'hsl(' + this.levelData.color + ', 50%, 70%)';
+	this.rightBlockDark = 'hsl(' + this.levelData.color + ', 50%, 60%)';
+
+	// game status
 	this.gamewinFlag = false;
 	this.gameoverFlag = false;
 	this.gamewinActive = false;
@@ -80,6 +111,9 @@ $.statePlay.leave = function() {
 	this.bullets = null;
 	this.hero1 = null;
 	this.hero2 = null;
+	this.swapGradient = null;
+	this.rightGuideGradient = null;
+	this.rightGuideGradient = null;
 };
 
 $.statePlay.step = function() {
@@ -102,7 +136,7 @@ $.statePlay.step = function() {
 };
 
 $.statePlay.render = function() {
-	$.ctx.clear( '#eee' );
+	$.ctx.clear( '#fff' );
 
 	this.renderBackground();
 	
@@ -204,9 +238,9 @@ $.statePlay.manageEnemies = function() {
 
 		// create enemy
 		this.enemiesCreated++;
-		var width = this.blockWidth / 3,
+		var width = this.blockWidth / 5,
 			height = width * 2.5,
-			x = ( $.game.width / 2 ) + cell * this.blockWidth + this.blockWidth / 3,
+			x = ( $.game.width / 2 ) + cell * this.blockWidth + this.blockWidth / 2 - width / 2,
 			y = -height,
 			yTarget = $.game.height,
 			duration = this.levelData.duration.enemy;
@@ -236,15 +270,68 @@ $.statePlay.gameover = function() {
 };
 
 $.statePlay.renderBackground = function() {
-	$.ctx.fillStyle( '#4d65aa' );
-	$.ctx.fillRect( $.game.width / 2, 0, $.game.width / 2, $.game.height );
+	// render left column panels
+	var leftLight = 'hsl(0, 0%, 100%)',
+		leftDark ='hsl(' +  this.levelData.color + ', 50%, 95%)';
+	for( var i = 0; i < this.levelData.cols; i++ ) {
+		if( this.levelData.cols % 2 === 0 ) {
+			if( i % 2 === 0 ) {
+				$.ctx.fillStyle( leftLight );
+			} else {
+				$.ctx.fillStyle( leftDark );
+			}
+		} else {
+			if( i % 2 === 0 ) {
+				$.ctx.fillStyle( leftDark );
+			} else {
+				$.ctx.fillStyle( leftLight );
+			}
+		}
+		$.ctx.fillRect( this.blockWidth * i, 0, this.blockWidth, $.game.height );
+	}
+
+	// render right column panels
+	for( var i = 0; i < this.levelData.cols; i++ ) {
+		if( i % 2 === 0 ) {
+			$.ctx.fillStyle( 'hsl(' +  this.levelData.color + ', 50%, 45%)' );
+		} else {
+			$.ctx.fillStyle( 'hsl(' +  this.levelData.color + ', 50%, 50%)' );
+		}
+		$.ctx.fillRect( $.game.width / 2 + this.blockWidth * i, 0, this.blockWidth, $.game.height );
+	}
+
+	// render left build line
+	$.ctx.fillStyle( 'hsla(' + this.levelData.color + ', 60%, 80%, 1)' );
+	$.ctx.fillRect( 0, $.game.height - $.game.buildHeight, $.game.width / 2, 2 );
+
+	// render right build line
+	$.ctx.fillStyle( 'hsla(' + this.levelData.color + ', 50%, 55%, 1)' );
+	$.ctx.fillRect( $.game.width / 2, $.game.height - $.game.buildHeight, $.game.width / 2, 2 );
+
+	// render left guide lines
+	$.ctx.fillStyle( this.leftGuideGradient );
+	for( var i = 0; i < this.levelData.cols; i++ ) {
+		$.ctx.save();
+		$.ctx.translate( i * this.blockWidth + this.blockWidth / 2, 0 );
+		$.ctx.fillRect( -1, 0, 2, $.game.height );
+		$.ctx.restore();
+	}
+
+	// render right guide lines
+	$.ctx.fillStyle( this.rightGuideGradient );
+	for( var i = 0; i < this.levelData.cols; i++ ) {
+		$.ctx.save();
+		$.ctx.translate( $.game.width / 2 + i * this.blockWidth + this.blockWidth / 2, 0 );
+		$.ctx.fillRect( -1, 0, 2, $.game.height );
+		$.ctx.restore();
+	}
 };
 
 $.statePlay.renderForeground = function() {
-	this.swapGradient
+	// right color gradient
 	$.ctx.save();
 	$.ctx.globalCompositeOperation( 'overlay' );
 	$.ctx.fillStyle( this.swapGradient );
-	$.ctx.fillRect( 0, 0, $.game.width, $.game.height );
+	$.ctx.fillRect( $.game.width / 2, 0, $.game.width / 2, $.game.height );
 	$.ctx.restore();
 };

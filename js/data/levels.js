@@ -33,15 +33,13 @@ $.levels = [
 		hits: 1,
 		interval: {
 			block: 2000,
-			enemy: 3000
+			enemy: 2000
 		},
 		duration: {
 			block: 4000,
 			enemy: 12000
 		},
-		colors: {
-			left: 200,
-			right: 330
-		}
+		color: Math.random() * 360
+		//color: 220
 	}
 ];

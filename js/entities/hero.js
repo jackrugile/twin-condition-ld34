@@ -59,7 +59,7 @@ $.hero.prototype.render = function() {
 	$.ctx.save();
 	$.ctx.translate( this.x, this.yRender );
 	if( this.type === 1 ) {
-		$.ctx.fillStyle( '#425ff6' );
+		$.ctx.fillStyle( 'hsl(' + this.levelData.color + ', 50%, 55%)' );
 	} else {
 		$.ctx.fillStyle( '#fff' );
 	}
@@ -89,7 +89,7 @@ $.hero.prototype.setXTarget = function( xForce ) {
 $.hero.prototype.move = function() {
 
 	var sound = $.game.playSound( 'move1' );
-	$.game.sound.setVolume( sound, 0.4 );
+	$.game.sound.setVolume( sound, 1 );
 	$.game.sound.setPlaybackRate( sound, $.rand( 0.9, 1.1 ) );
 
 	if( this.type === 1 ) {
@@ -109,10 +109,10 @@ $.hero.prototype.move = function() {
 };
 
 $.hero.prototype.xLerp = function() {
+	this.x += ( this.xTarget - this.x ) * 0.5;
 	// tweak this number to get fair "still" collisions
 	// higher number is harder
-	this.x += ( this.xTarget - this.x ) * 0.3;
-	if( Math.abs( this.xTarget - this.x ) > 1 ) {
+	if( Math.abs( this.xTarget - this.x ) > 2 ) {
 		this.moving = true;
 	} else {
 		this.moving = false;

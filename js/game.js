@@ -57,8 +57,8 @@ $.game.create = function() {
 		this.height / 2,
 		this.height
 	);
-	this.vignetteGradient.addColorStop( 0, '#fff' );
-	this.vignetteGradient.addColorStop( 1, '#000' );
+	this.vignetteGradient.addColorStop( 0, 'hsla(0, 0%, 100%, 1)' );
+	this.vignetteGradient.addColorStop( 1, 'hsla(0, 0%, 0%, 1)' );
 };
 
 $.game.ready = function() {
