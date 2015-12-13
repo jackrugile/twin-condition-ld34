@@ -7,7 +7,6 @@ $.block.prototype.init = function( opt ) {
 		this.alpha = 1;
 		this.moveTween = $.game.tween( this ).to(
 			{
-				x: this.xTarget,
 				y: this.yTarget
 			},
 			this.duration / 1000,
@@ -35,7 +34,7 @@ $.block.prototype.render = function() {
 	$.ctx.a( this.alpha );
 	$.ctx.fillStyle( '#fff' );
 	$.ctx.fillRect( this.x, this.y, this.width, this.height );
-	$.ctx.fillStyle( '#000' );
+	$.ctx.fillStyle( '#222' );
 	$.ctx.fillRect( this.x + 1, this.y + 1, this.width - 2, this.height - 2 );
 	$.ctx.ra();
 };
@@ -51,7 +50,7 @@ $.block.prototype.destroy = function() {
 }
 
 $.block.prototype.land = function() {
-	if( this.type === 1 && !$.game.state.dead ) {
+	if( this.type === 1 && !$.game.state.gameoverFlag ) {
 		if( this.number % $.game.state.levelData.cols === 0 ) {
 			$.game.state.hero1.advanceRow();
 			$.game.state.hero2.advanceRow();
@@ -65,7 +64,7 @@ $.block.prototype.land = function() {
 			height: this.height
 		});
 		if( this.isFinal ) {
-			console.log( 'Level Completed' );
+			$.game.state.gamewinFlag = true;
 		}
 
 		this.hasLanded = 1;

@@ -19,19 +19,23 @@ $.statePlay.enter = function() {
 	this.rowState = [];
 	this.rowCellCurrent = null;
 	this.rowsCompleted = false;
-	this.rowHeight =- 
 	this.resetRowState();
 
 	// setup blocks
-	this.blockTimer = this.levelData.interval;
+	this.blockTimer = this.levelData.interval.block;
 	this.blocksCreated = 0;
 	this.blocksTotal = this.levelData.rows * this.levelData.cols;
+	this.blockWidth = ( $.game.width / 2 ) / this.levelData.cols;
 	this.blockHeight = $.game.buildHeight / this.levelData.rows;
 	this.blocks = new $.pool( $.block, this.blocksTotal * 2 );
 
 	// setup enemies
-	this.enemyTimer = 0;
-	this.enemies = new $.pool( $.block, 30 );
+	this.enemyTimer = this.levelData.interval.enemy;
+	this.enemiesCreated = 0;
+	this.enemies = new $.pool( $.enemy, this.blocksTotal * 2 );
+
+	// setup bullets
+	this.bullets = new $.pool( $.bullet, 100 );
 
 	// setup heros
 	this.hero1 = new $.hero({
@@ -43,30 +47,46 @@ $.statePlay.enter = function() {
 		levelData: this.levelData
 	});
 
-	this.dead = false;
+	this.gamewinFlag = false;
+	this.gameoverFlag = false;
+	this.gamewinActive = false;
+	this.gameoverActive = false;
 }
 
 $.statePlay.leave = function() {
 	// clean up data
 	this.blocks.each( 'destroy' );
+	this.enemies.each( 'destroy' );
+	this.bullets.each( 'destroy' );
 	this.hero1.destroy();
 	this.hero2.destroy();
 
 	this.blocks.empty();
 	this.enemies.empty();
+	this.bullets.empty();
 
 	this.blocks = null;
 	this.enemies = null;
+	this.bullets = null;
 	this.hero1 = null;
 	this.hero2 = null;
 };
 
 $.statePlay.step = function() {
-	this.manageRows();
+	if( this.gamewinFlag && !this.gamewinActive ) {
+		this.gamewin();
+	}
+
+	if( this.gameoverFlag && !this.gameoverActive ) {
+		this.gameover();
+	}
+
 	this.manageBlocks();
 	this.manageEnemies();
 
 	this.blocks.each( 'step' );
+	this.enemies.each( 'step' );
+	this.bullets.each( 'step' );
 	this.hero1.step();
 	this.hero2.step();
 };
@@ -75,6 +95,8 @@ $.statePlay.render = function() {
 	$.ctx.clear( '#fff' );
 	
 	this.blocks.each( 'render' );
+	this.enemies.each( 'render' );
+	this.bullets.each( 'render' );
 	this.hero1.render();
 	this.hero2.render();
 };
@@ -101,12 +123,6 @@ Custom
 
 ==============================================================================*/
 
-$.statePlay.manageRows = function() {
-	if( 0 ) {
-
-	}
-};
-
 $.statePlay.getRowCell = function() {
 	var cell = this.rowState.splice( $.randInt( 0, this.rowState.length - 1 ), 1 );
 	return cell[ 0 ];
@@ -126,21 +142,19 @@ $.statePlay.resetRowState = function() {
 
 $.statePlay.manageBlocks = function() {
 	this.blockTimer += $.game.dtMs;
-	if( this.blockTimer >= this.levelData.interval && !this.rowsCompleted ) {
+	if( this.blockTimer >= this.levelData.interval.block && !this.rowsCompleted ) {
 		// choose row cell
 		var cell = this.getRowCell();
 
 		// create block
 		this.blocksCreated++;
 		var type = 1,
-			width = ( $.game.width / 2 ) / this.levelData.cols,
+			width = this.blockWidth,
 			height = this.blockHeight,
 			x = cell * width,
 			y = -height,
-			xTarget = x,
 			yTarget = $.game.height - ( this.rowCurrent ) * height,
-			duration = this.levelData.duration,
-			durationDec = this.levelData.durationDec,
+			duration = this.levelData.duration.block,
 			number = this.blocksCreated,
 			isFinal = ( this.blocksCreated === this.blocksTotal )
 
@@ -148,12 +162,10 @@ $.statePlay.manageBlocks = function() {
 			type: type,
 			x: x,
 			y: y,
-			xTarget: xTarget,
 			yTarget: yTarget,
 			width: width,
 			height: height,
 			duration: duration,
-			durationDec: durationDec,
 			number: number,
 			isFinal: isFinal
 		});
@@ -164,16 +176,45 @@ $.statePlay.manageBlocks = function() {
 		}
 
 		// set timer to overflow time
-		this.blockTimer = this.blockTimer - this.levelData.interval;
+		this.blockTimer = this.blockTimer - this.levelData.interval.block;
 	}
 };
 
 $.statePlay.manageEnemies = function() {
 	this.enemyTimer += $.game.dtMs;
-	if( this.enemyTimer >= this.levelData.interval ) {
+	if( this.enemyTimer >= this.levelData.interval.enemy && !this.rowsCompleted ) {
+		// choose random row cell
+		var cell = $.randInt( 0, this.levelData.cols - 1 )
+
 		// create enemy
+		this.enemiesCreated++;
+		var width = this.blockWidth / 3,
+			height = width * 2.5,
+			x = ( $.game.width / 2 ) + cell * this.blockWidth + this.blockWidth / 3,
+			y = -height,
+			yTarget = $.game.height,
+			duration = this.levelData.duration.enemy;
+
+		this.enemies.create({
+			x: x,
+			y: y,
+			yTarget: yTarget,
+			width: width,
+			height: height,
+			duration: duration
+		});
 
 		// set timer to overflow time
-		this.enemyTimer = this.enemyTimer - this.levelData.interval;
+		this.enemyTimer = this.enemyTimer - this.levelData.interval.enemy;
 	}
+};
+
+$.statePlay.gamewin = function() {
+	this.gamewinActive = true;
+	console.log( 'Level Completed' );
+};
+
+$.statePlay.gameover = function() {
+	this.gameoverActive = true;
+	$.game.setState( $.statePlay );
 };

@@ -7,6 +7,8 @@
 	6 - 5 col | 12 tall | 3 hit kills
 	7 - 6 col | 12 tall | 4 hit kills
 	8 - 6 col | 16 tall | 4 hit kills
+
+	maybe always one hit kills
 */
 
 $.levels = [
@@ -29,10 +31,14 @@ $.levels = [
 		cols: 3,
 		rows: 3,
 		hits: 1,
-		interval: 2000, // ticks or ms?
-		intervalDec: 0,
-		duration: 3000, // might use a duration for this, so I can use a ease/tween
-		durationDec: 0,
+		interval: {
+			block: 2000,
+			enemy: 4000
+		},
+		duration: {
+			block: 4000,
+			enemy: 8000
+		},
 		colors: {
 			left: 200,
 			right: 330
