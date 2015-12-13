@@ -10,7 +10,7 @@ $.block.prototype.init = function( opt ) {
 				x: this.xTarget,
 				y: this.yTarget
 			},
-			this.duration / 1000, 
+			this.duration / 1000,
 			'linear'
 		);
 		this.moveTween.on( 'finished', this.land.bind( this ) );
@@ -24,6 +24,8 @@ $.block.prototype.init = function( opt ) {
 			'linear'
 		);
 	}
+
+	this.hasLanded = 0;
 };
 
 $.block.prototype.step = function() {
@@ -38,9 +40,18 @@ $.block.prototype.render = function() {
 	$.ctx.ra();
 };
 
-$.block.prototype.land = function() {
-	if( this.type === 1 ) {
+$.block.prototype.destroy = function() {
+	if( this.moveTween ) {
+		this.moveTween.end();
+	}
 
+	if( this.alphaTween ) {
+		this.alphaTween.end();
+	}
+}
+
+$.block.prototype.land = function() {
+	if( this.type === 1 && !$.game.state.dead ) {
 		if( this.number % $.game.state.levelData.cols === 0 ) {
 			$.game.state.hero1.advanceRow();
 			$.game.state.hero2.advanceRow();
@@ -56,5 +67,7 @@ $.block.prototype.land = function() {
 		if( this.isFinal ) {
 			console.log( 'Level Completed' );
 		}
+
+		this.hasLanded = 1;
 	}
 };

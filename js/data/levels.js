@@ -1,12 +1,12 @@
 /*
-	1 - 2 col | 3 tall  | 1 hit kills
-	2 - 2 col | 4 tall  | 1 hit kills
-	3 - 3 col | 4 tall  | 2 hit kills
-	4 - 3 col | 6 tall  | 2 hit kills
-	5 - 4 col | 6 tall  | 3 hit kills
-	6 - 4 col | 12 tall | 3 hit kills
-	7 - 5 col | 12 tall | 4 hit kills
-	8 - 5 col | 16 tall | 4 hit kills
+	1 - 3 col | 3 tall  | 1 hit kills
+	2 - 3 col | 4 tall  | 1 hit kills
+	3 - 4 col | 4 tall  | 2 hit kills
+	4 - 4 col | 6 tall  | 2 hit kills
+	5 - 5 col | 6 tall  | 3 hit kills
+	6 - 5 col | 12 tall | 3 hit kills
+	7 - 6 col | 12 tall | 4 hit kills
+	8 - 6 col | 16 tall | 4 hit kills
 */
 
 $.levels = [
@@ -29,7 +29,7 @@ $.levels = [
 		cols: 3,
 		rows: 3,
 		hits: 1,
-		interval: 1000, // ticks or ms?
+		interval: 2000, // ticks or ms?
 		intervalDec: 0,
 		duration: 3000, // might use a duration for this, so I can use a ease/tween
 		durationDec: 0,

@@ -36,22 +36,29 @@ $.statePlay.enter = function() {
 	// setup heros
 	this.hero1 = new $.hero({
 		type: 1,
-		width: 48,
-		height: 48,
-		x: $.game.width * 0.25,
-		y: $.game.height - 48 - this.blockHeight
+		levelData: this.levelData
 	});
 	this.hero2 = new $.hero({
 		type: 2,
-		width: 48,
-		height: 48,
-		x: $.game.width * 0.75,
-		y: $.game.height - 48 - this.blockHeight
+		levelData: this.levelData
 	});
+
+	this.dead = false;
 }
 
 $.statePlay.leave = function() {
 	// clean up data
+	this.blocks.each( 'destroy' );
+	this.hero1.destroy();
+	this.hero2.destroy();
+
+	this.blocks.empty();
+	this.enemies.empty();
+
+	this.blocks = null;
+	this.enemies = null;
+	this.hero1 = null;
+	this.hero2 = null;
 };
 
 $.statePlay.step = function() {
@@ -73,7 +80,6 @@ $.statePlay.render = function() {
 };
 
 $.statePlay.mousedown = function( e ) {
-	console.log( e );
 	if( e.button === 'left' ) {
 		this.hero1.move();
 	} else if( e.button = 'right' ) {
@@ -82,7 +88,11 @@ $.statePlay.mousedown = function( e ) {
 };
 
 $.statePlay.keydown = function( e ) {
-	console.log( e );
+	if( e.key == 'a' || e.key == 'left' ) {
+		this.hero1.move();
+	} else if( e.key == 'd' || e.key == 'right' ) {
+		this.hero2.move();
+	}
 };
 
 /*==============================================================================

@@ -19,6 +19,7 @@ GAMEPLAY
 	maybe make them a lot slower, but take more time to kill
 	right is kind of like an alternate dimension, ghost mode
 	as the bricks land and are added on the left, they are mirrored and appear on the right
+	maybe only check for collision if the hero is not moving, since they have to slide across a bunch to get back
 
 STATES
 	menu/levels
@@ -86,9 +87,6 @@ AUDIO
 	lose
 	level select click
 
-TECHNICAL
-	try dt time step
-
 POLISH
 	debris or light particles falling down
 	play with light beams on bricks
@@ -107,12 +105,17 @@ POLISH
 	quick flash highlight when block or enemy appears on track
 	make left and right complementary?
 	make characters bobbing up and down, rotating? interesting movement in some way
+	gamepad controls?
 	on lose
 		explode blocks?
 	on win?
-		do what?
+		move both hero to dead center and make burst of light?
 
 BONUS GOALS
 	stats screen
 	name levels
 	tutorial text on level 1
+
+NAME
+	dyad
+	dyadic
