@@ -14,6 +14,8 @@ $.game = playground({
 $.game.create = function() {
 	$.ctx = this.layer;
 
+	this.isDev = location.hash === '#dev';
+
 	// default time
 	this.dt = 0.016;
 	this.dtMs = 16;

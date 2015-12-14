@@ -28,7 +28,7 @@ $.hero = function( opt ) {
 	this.yRender = this.y;
 
 	
-	this.shootInterval = 400;
+	this.shootInterval = 300;
 	this.shootTimer = this.shootInterval;
 
 	this.collisionRect = {
@@ -70,6 +70,20 @@ $.hero.prototype.step = function() {
 	if( $.game.state.gamewinFlag ) {
 		if( this.rowTween ) {
 			this.rowTween.stop();
+		}
+
+		if( $.game.state.tick % 10 === 0 ) {
+			$.game.state.particles.create({
+				x: this.x,
+				y: this.y,
+				vx: $.rand( -3, 3 ),
+				vy: $.rand( -3, 3 ),
+				radiusBase: $.rand( 3, 7 ),
+				growth: $.rand( 0.5, 1 ),
+				decay: 0.005,
+				hue: $.game.state.levelData.color,
+				grow: false
+			});
 		}
 
 		if( !this.gamewinTween ) {
@@ -192,9 +206,15 @@ $.hero.prototype.setXTarget = function( xForce ) {
 };
 
 $.hero.prototype.move = function() {
-	var sound = $.game.playSound( 'move1' );
-	$.game.sound.setVolume( sound, 1 );
-	$.game.sound.setPlaybackRate( sound, $.rand( 0.8, 1.2 ) );
+	if( !$.game.state.gameoverFlag && !$.game.state.gamewinFlag ) {
+		var sound = $.game.playSound( 'move1' );
+		$.game.sound.setVolume( sound, 1 );
+		if( this.type === 1 ) {
+			$.game.sound.setPlaybackRate( sound, $.rand( 0.8, 1.2 ) );
+		} else {
+			$.game.sound.setPlaybackRate( sound, $.rand( 0.8, 1.2 ) );
+		}
+	}
 
 	if( this.type === 1 ) {
 		if( this.position === 0 ) {
@@ -287,7 +307,7 @@ $.hero.prototype.manageBullets = function() {
 				yTarget: this.y - $.game.height,
 				width: 8,
 				height: 8 * 2.5,
-				duration: 1200
+				duration: 1800
 			});
 
 			// set timer to overflow time

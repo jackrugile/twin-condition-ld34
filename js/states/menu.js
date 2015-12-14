@@ -136,7 +136,10 @@ $.stateMenu.cycleLevel = function() {
 };
 
 $.stateMenu.selectLevel = function() {
-	if( this.levelSelected <= $.storage.get( 'level' ) + 1 ) {
+	if( this.levelSelected <= $.storage.get( 'level' ) + 1 || $.game.isDev ) {
+		var sound = $.game.playSound( 'select1' );
+		$.game.sound.setVolume( sound, 0.5 );
+		$.game.sound.setPlaybackRate( sound, 1.25 );
 		$.game.level = this.levelSelected;
 		$.game.setState( $.statePlay );
 	}

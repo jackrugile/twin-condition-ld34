@@ -342,7 +342,7 @@ $.statePlay.gamewin = function() {
 	}
 	setTimeout( function() {
 		$.game.setState( $.stateMenu );
-	}, 1500 );
+	}, 2000 );
 };
 
 $.statePlay.gameover = function() {
@@ -353,7 +353,7 @@ $.statePlay.gameover = function() {
 	$.game.state.shake.rotate += 0.02;
 	setTimeout( function() {
 		$.game.setState( $.stateMenu );
-	}, 1500 );
+	}, 2000 );
 };
 
 $.statePlay.renderBackground = function() {

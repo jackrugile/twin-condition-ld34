@@ -4,16 +4,18 @@ General
 
 ==============================================================================*/
 
-PRIORITY 2
-	level tuning
-	sound effects
-PRIORITY 3
-	music
-	browser testing
-	polish
-	particles
-	screenshake
-	juice!
+PRIORITY
+	1:30 - 2:15
+		level tuning
+	2:15 - 2:45
+		sound effects
+	2:45 - 5:45
+		music
+	5:45 - 6:00
+		browser testing
+	6:00 - 7:00
+		polish and misc
+
 PRIORITY 4 / LAUNCH
 	describe game
 		description
@@ -28,6 +30,7 @@ PRIORITY 4 / LAUNCH
 	video demo
 	post mortem blog post
 	vote on games!
+	message to rezoner
 
 /*==============================================================================
 
@@ -40,3 +43,34 @@ harmor - fairy bells
 harmless - pw funk for bass
 harmless - dx bass 2 modify
 harmor plain for vg lead
+
+/*==============================================================================
+
+Twin Condition
+
+==============================================================================*/
+
+LEVELS
+	experiment with more columns, are more columns harder or easier?
+		might have to ramp other properties up to match number of cols
+
+	game: 900 x 576
+
+	192 for tower height (1/3 of game)
+		works: 3, 4, 6, 12, 16
+
+AUDIO
+	music
+	
+	block
+	--- enemy
+	--- shoot
+	--- move
+	--- game win
+	--- gameover
+	--- level cycle
+	--- level select
+	--- level can't select
+
+POLISH
+	add color to menu screen if all levels are beaten
