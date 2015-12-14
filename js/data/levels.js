@@ -13,20 +13,6 @@
 */
 
 $.levels = [
-	// power level
-	/*{
-		cols: 5,
-		rows: 12,
-		hits: 1,
-		interval: 50, // ticks or ms?
-		intervalDec: 0,
-		duration: 100, // might use a duration for this, so I can use a ease/tween
-		durationDec: 0,
-		colors: {
-			left: 200,
-			right: 330
-		}
-	},*/
 	// level 1 
 	{
 		cols: 3,
@@ -40,7 +26,104 @@ $.levels = [
 			block: 4000,
 			enemy: 12000
 		},
-		//color: Math.random() * 360
 		color: 220
-	}
+	},
+	{
+		cols: 3,
+		rows: 4,
+		hits: 1,
+		interval: {
+			block: 2000,
+			enemy: 2000
+		},
+		duration: {
+			block: 4000,
+			enemy: 12000
+		},
+		color: 220
+	},
+	{
+		cols: 3,
+		rows: 4,
+		hits: 1,
+		interval: {
+			block: 2000,
+			enemy: 2000
+		},
+		duration: {
+			block: 4000,
+			enemy: 12000
+		},
+		color: 220
+	},
+	{
+		cols: 3,
+		rows: 4,
+		hits: 1,
+		interval: {
+			block: 2000,
+			enemy: 2000
+		},
+		duration: {
+			block: 4000,
+			enemy: 12000
+		},
+		color: 220
+	},
+	{
+		cols: 3,
+		rows: 4,
+		hits: 1,
+		interval: {
+			block: 2000,
+			enemy: 2000
+		},
+		duration: {
+			block: 4000,
+			enemy: 12000
+		},
+		color: 220
+	},
+	{
+		cols: 3,
+		rows: 4,
+		hits: 1,
+		interval: {
+			block: 2000,
+			enemy: 2000
+		},
+		duration: {
+			block: 4000,
+			enemy: 12000
+		},
+		color: 220
+	},
+	{
+		cols: 3,
+		rows: 4,
+		hits: 1,
+		interval: {
+			block: 2000,
+			enemy: 2000
+		},
+		duration: {
+			block: 4000,
+			enemy: 12000
+		},
+		color: 220
+	},
+	{
+		cols: 3,
+		rows: 4,
+		hits: 1,
+		interval: {
+			block: 2000,
+			enemy: 2000
+		},
+		duration: {
+			block: 4000,
+			enemy: 12000
+		},
+		color: 220
+	},
 ];

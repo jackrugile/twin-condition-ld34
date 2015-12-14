@@ -39,7 +39,8 @@ $.game.create = function() {
 
 	// sounds
 	this.loadSounds(
-		'move1'
+		'move1',
+		'select1'
 	);
 
 	this.overlayTimer = {
@@ -62,7 +63,7 @@ $.game.create = function() {
 };
 
 $.game.ready = function() {
-	this.setState( $.statePlay );
+	this.setState( $.stateMenu );
 };
 
 $.game.step = function( dt ) {
@@ -104,8 +105,9 @@ $.game.renderOverlay = function() {
 	} else {
 		this.overlayTimer.current++;
 	}
-
+	
 	$.ctx.a( 0.075 );
+	$.ctx.globalCompositeOperation( 'overlay' );
 	$.ctx.drawImage( this.images[ 'overlay' + ( this.overlayTimer.index + 1 ) ], 0, 0 );
 	$.ctx.ra();
 

@@ -4,50 +4,30 @@ Twin Condition
 
 ==============================================================================*/
 
-GENERAL
-	stagger blocks/enemies on either side, or in sync? or both?
-	use easing for char movement and block dropping?
-	
-CONTROLS
-	A/D, left/right, mouse left/mouse right, maybe other bindings
-	left movement moves left hero to the left
-		when hitting the wall, reverse direction
-	vice versa for right character
-
 GAMEPLAY
 	par based, least amount of mistakes (hit by block, missed baddie)
-	maybe make them a lot slower, but take more time to kill
-	right is kind of like an alternate dimension, ghost mode
-	as the bricks land and are added on the left, they are mirrored and appear on the right
-	maybe only check for collision if the hero is not moving, since they have to slide across a bunch to get back
 
 STATES
 	menu/levels
-	tutorial
 	play
 	gameover
 	win
 
 ENTITIES
 	hero
-		dodge hero
-		attack hero
 	block
 	enemy
 	bullet
 	particle
-	particle emitter
 
 DATA
 	levels
 		cols
-		built count
-		hit kills
-		intervals
-		interval increase
-		speed (might use a duration for this, so I can use a ease/tween)
-		speed increase
-		color set
+		rows
+		hits
+		interval
+		duration
+		color
 
 STORAGE
 	mute
@@ -57,14 +37,6 @@ STORAGE
 LEVELS
 	experiment with more columns, are more columns harder or easier?
 		might have to ramp other properties up to match number of cols
-	1 - 2 col | 3 tall  | 1 hit kills
-	2 - 2 col | 4 tall  | 1 hit kills
-	3 - 3 col | 4 tall  | 2 hit kills
-	4 - 3 col | 6 tall  | 2 hit kills
-	5 - 4 col | 6 tall  | 3 hit kills
-	6 - 4 col | 12 tall | 3 hit kills
-	7 - 5 col | 12 tall | 4 hit kills
-	8 - 5 col | 16 tall | 4 hit kills
 
 	game: 960 x 576
 
@@ -89,26 +61,14 @@ AUDIO
 
 POLISH
 	debris or light particles falling down
-	play with light beams on bricks
-	overlay over whole game
 	dust when blocks hit
 	movement trails for heros and blocks
 	screenshake
-	snap to larger mode if screen estate is available
-	is it a city, with clouds and a sun?
-	is it in space, with planets and stars?
 	is it underwanter, with bubbles, and stoof?
-	marching dashed line for goal
-	lear character toward movement direction
-	light source around each hero
 	show level progress bar, or 0/128, something like that
 	quick flash highlight when block or enemy appears on track
-	make left and right complementary?
-	make characters bobbing up and down, rotating? interesting movement in some way
 	gamepad controls?
 	change background color with css to match level?
-	highlights for enemies
-	use COLOR or OVERLAY for color splash on right?
 	on lose
 		explode blocks?
 	on win?
@@ -117,8 +77,3 @@ POLISH
 BONUS GOALS
 	stats screen
 	name levels
-	tutorial text on level 1
-
-NAME
-	dyad
-	dyadic
