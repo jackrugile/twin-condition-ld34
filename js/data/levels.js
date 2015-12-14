@@ -126,4 +126,18 @@ $.levels = [
 		},
 		color: 220
 	},
+	{
+		cols: 3,
+		rows: 4,
+		hits: 1,
+		interval: {
+			block: 2000,
+			enemy: 2000
+		},
+		duration: {
+			block: 4000,
+			enemy: 12000
+		},
+		color: 220
+	}
 ];

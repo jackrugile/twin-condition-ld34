@@ -22,6 +22,8 @@ $.game.create = function() {
 	this.timeMs = 0;
 	this.timeNorm = 0;
 
+	this.unit = 24;
+
 	// default level
 	this.level = 1;
 	this.buildHeight = this.height / 3;
@@ -105,9 +107,8 @@ $.game.renderOverlay = function() {
 	} else {
 		this.overlayTimer.current++;
 	}
-	
+
 	$.ctx.a( 0.075 );
-	$.ctx.globalCompositeOperation( 'overlay' );
 	$.ctx.drawImage( this.images[ 'overlay' + ( this.overlayTimer.index + 1 ) ], 0, 0 );
 	$.ctx.ra();
 

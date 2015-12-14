@@ -355,7 +355,6 @@ $.statePlay.renderForeground = function() {
 	$.ctx.save();
 	$.ctx.globalCompositeOperation( 'color' );
 	$.ctx.fillStyle( this.swapGradient );
-	//$.ctx.fillRect( $.game.width / 2, 0, $.game.width / 2, $.game.height );
 	$.ctx.fillRect( 0, 0, $.game.width, $.game.height );
 	$.ctx.restore();
 };
