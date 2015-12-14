@@ -16,7 +16,7 @@ PLAYGROUND.Transitions = function(app) {
 
 	app.transition = app.transition ? app.transition : 'split2';
 	app.transitionDuration = app.transitionDuration ?
-		app.transitionDuration : 0.5;
+		app.transitionDuration : 0.75;
 
 };
 
@@ -98,8 +98,8 @@ PLAYGROUND.Transitions.split2 = function(app, progress, screenshot) {
 
 	app.layer.save();
 
-	app.layer.a(negative).clear("#fff").ra();
-
+	//app.layer.a(negative).clear("#fff").ra();
+	app.layer.a(negative)
 	// left
 	app.layer.drawImage(
 		screenshot, // image

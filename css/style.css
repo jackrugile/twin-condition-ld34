@@ -5,8 +5,8 @@ body {
 }
 
 body {
-	background: #000;
-	background: radial-gradient(#333, #000);
+	background: #eee;
+	background: radial-gradient(#fff 15%, #ccc);
 }
 
 canvas {
@@ -14,8 +14,8 @@ canvas {
 	animation: fade-in 1000ms forwards;
 	background: #fff;
 	bottom: 0;
-	//box-shadow: 0 0 0 10px rgba(255, 255, 255, 0.15);
-	box-shadow: 0 0 0 10px #fff;
+	/*box-shadow: 0 0 0 10px rgba(255, 255, 255, 0.15);*/
+	box-shadow: 0 0 0 12px #fff, 0 25px 40px -10px rgba(0, 0, 0, 0.3);
 	left: 0;
 	margin: auto;
 	position: absolute;

@@ -20,8 +20,8 @@ PLAYGROUND.LoadingScreen = {
 
     this.logo.src = this.logoRaw;
 
-    //this.background = "#272822";
-    //this.app.container.style.background = "#272822";
+    this.background = "#fff";
+    //this.app.container.style.background = "#000";
 
     if (window.getComputedStyle) {
       // this.background = window.getComputedStyle(document.body).backgroundColor || "#000";
@@ -68,19 +68,19 @@ PLAYGROUND.LoadingScreen = {
 
     this.app.layer.clear(this.background);
 
-    this.app.layer.fillStyle("#fff");
+    //this.app.layer.fillStyle("#333");
 
-    //this.app.layer.save();
-    //this.app.layer.align(0.5, 0.5);
+    this.app.layer.save();
+    this.app.layer.align(0.5, 0.5);
     //this.app.layer.globalCompositeOperation("lighter");
     //this.app.layer.drawImage(this.logo, this.app.center.x, this.app.center.y);
 
-    var w = this.current * this.logo.width;
+    var w = this.current * (this.app.width);
 
-    this.app.layer.fillStyle("#fff");
+    this.app.layer.fillStyle("#ccc");
 
-    this.app.layer.fillRect(this.app.center.x, this.app.center.y + 32, w, 12);
-    this.app.layer.fillRect(this.app.center.x, this.app.center.y + 32, this.logo.width, 4);
+    this.app.layer.fillRect(this.app.center.x, this.app.center.y + -1, w, 2);
+    //this.app.layer.fillRect(this.app.center.x, this.app.center.y + 32, this.logo.width, 4);
 
     this.app.layer.restore();
 

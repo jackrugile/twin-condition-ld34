@@ -54,7 +54,7 @@ $.statePlay.enter = function() {
 		0,
 		$.game.width * 1,
 		$.game.height * 0.5,
-		$.game.width * 0.9
+		$.game.width * 0.8
 	);
 	this.swapGradient.addColorStop( 0, 'hsla(' + ( this.levelData.color + 120 ) + ', 100%, 50%, 1)' );
 	this.swapGradient.addColorStop( 1, 'hsla(' + ( this.levelData.color + 120 ) + ', 100%, 50%, 0)' );

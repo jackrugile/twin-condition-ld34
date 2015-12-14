@@ -32,41 +32,100 @@ $.hero = function( opt ) {
 	this.shootTimer = this.shootInterval;
 
 	this.collisionRect = {
-		x: 0,
-		y: 0,
-		w: this.width,
-		h: this.height
+		x: 10,
+		y: 10,
+		w: this.width - 20,
+		h: this.height - 20
 	};
 };
 
 $.hero.prototype.step = function() {
 	if( this.type === 1 ) {
-		this.yRender = this.y + Math.sin( $.game.time * 3 ) * 6;
+		this.yRender = this.y + Math.sin( $.game.time * 3.5 ) * 6;
 	} else {
-		this.yRender = this.y + Math.cos( $.game.time * 3 ) * 6;
+		this.yRender = this.y + Math.sin( $.game.time * 3.5 ) * 6;
 		this.manageBullets();
 	}
 
 	this.xLerp();
 
-	this.collisionRect.x = this.x - this.width / 2;
-	this.collisionRect.y = this.yRender - this.height / 2;
+	this.collisionRect.x = this.x - this.width / 2 + 10;
+	this.collisionRect.y = this.yRender - this.height / 2 + 10;
 
 	this.checkCollisions();
 };
 
 $.hero.prototype.render = function() {
 	$.ctx.save();
-	$.ctx.translate( this.x, this.yRender );
-	if( this.type === 1 ) {
-		$.ctx.rotate( $.game.time );
-		$.ctx.fillStyle( 'hsl(' + this.levelData.color + ', 50%, 55%)' );
-	} else {
-		$.ctx.rotate( -$.game.time );
-		$.ctx.fillStyle( '#fff' );
-	}
-	$.ctx.fillRect( -this.width / 2, -this.height / 2, this.width, this.height );
+		$.ctx.translate( this.x, this.yRender );
+		//$.ctx.translate( this.x, this.y );
+		if( this.type === 1 ) {
+			$.ctx.rotate( Math.cos( $.game.time * 3.5 ) * 0.15 + Math.PI / 4 );
+			$.ctx.fillStyle( 'hsl(' + this.levelData.color + ', 50%, 55%)' );
+		} else {
+			$.ctx.rotate( Math.cos( $.game.time * 3.5 ) * 0.15 + Math.PI / 4 );
+			$.ctx.fillStyle( '#fff' );
+		}
+
+		// draw body
+		$.ctx.fillRect( -this.width / 2, -this.height / 2, this.width, this.height );
+
+		// draw eyes
+		if( this.type === 1 ) {
+			$.ctx.fillStyle( '#fff' );
+		} else {
+			$.ctx.fillStyle( 'hsl(' + this.levelData.color + ', 50%, 55%)' );
+		}
+		$.ctx.fillRect( -8 - 3, 8 - 3, 6, 6 );
+		$.ctx.fillRect( 8 - 3, -8 - 3, 6, 6 );
+
+		// draw tentacles
+		if( this.type === 1 ) {
+			$.ctx.fillStyle( 'hsl(' + this.levelData.color + ', 50%, 55%)' );
+		} else {
+			$.ctx.fillStyle( '#fff' );
+		}
+
+		// center
+		$.ctx.save();
+			$.ctx.translate( this.width / 2, this.height / 2 );
+			$.ctx.rotate( Math.sin( $.game.time * 3.5 ) * 0.25 );
+			$.polygon([
+				{ x: -5, y: -10 },
+				{ x: 8, y: 8 },
+				{ x: -10, y: -5 }
+			]);
+			$.ctx.fill();
+		$.ctx.restore();
+
+		// left
+		$.ctx.save();
+			$.ctx.translate( this.width / 2 - 32, this.height / 2 );
+			$.ctx.rotate( Math.sin( $.game.time * 3.5 ) * 0.25 );
+			$.polygon([
+				{ x: -5, y: -10 },
+				{ x: 12, y: 12 },
+				{ x: -10, y: -5 }
+			]);
+			$.ctx.fill();
+		$.ctx.restore();
+
+		// right
+		$.ctx.save();
+			$.ctx.translate( this.width / 2, this.height / 2 - 32 );
+			$.ctx.rotate( Math.sin( $.game.time * 3.5 ) * 0.25 );
+			$.polygon([
+				{ x: -5, y: -10 },
+				{ x: 12, y: 12 },
+				{ x: -10, y: -5 }
+			]);
+			$.ctx.fill();
+		$.ctx.restore();
+
 	$.ctx.restore();
+
+	//$.ctx.fillStyle( 'hsla(120, 100%, 50%, 0.25)' );
+	//$.ctx.fillRect( this.collisionRect.x, this.collisionRect.y, this.collisionRect.w, this.collisionRect.h );
 };
 
 $.hero.prototype.destroy = function() {
@@ -89,10 +148,9 @@ $.hero.prototype.setXTarget = function( xForce ) {
 };
 
 $.hero.prototype.move = function() {
-
 	var sound = $.game.playSound( 'move1' );
 	$.game.sound.setVolume( sound, 1 );
-	$.game.sound.setPlaybackRate( sound, $.rand( 0.9, 1.1 ) );
+	$.game.sound.setPlaybackRate( sound, $.rand( 0.8, 1.2 ) );
 
 	if( this.type === 1 ) {
 		if( this.position === 0 ) {
@@ -111,10 +169,10 @@ $.hero.prototype.move = function() {
 };
 
 $.hero.prototype.xLerp = function() {
-	this.x += ( this.xTarget - this.x ) * 0.5;
+	this.x += ( this.xTarget - this.x ) * 0.3;
 	// tweak this number to get fair "still" collisions
 	// higher number is harder
-	if( Math.abs( this.xTarget - this.x ) > 2 ) {
+	if( Math.abs( this.xTarget - this.x ) > 1 ) {
 		this.moving = true;
 	} else {
 		this.moving = false;
