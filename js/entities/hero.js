@@ -92,7 +92,7 @@ $.hero.prototype.render = function() {
 			$.ctx.rotate( Math.sin( $.game.time * 3.5 ) * 0.25 );
 			$.polygon([
 				{ x: -5, y: -10 },
-				{ x: 8, y: 8 },
+				{ x: 6, y: 6 },
 				{ x: -10, y: -5 }
 			]);
 			$.ctx.fill();
@@ -100,11 +100,11 @@ $.hero.prototype.render = function() {
 
 		// left
 		$.ctx.save();
-			$.ctx.translate( this.width / 2 - 32, this.height / 2 );
+			$.ctx.translate( this.width / 2 - 28, this.height / 2 );
 			$.ctx.rotate( Math.sin( $.game.time * 3.5 ) * 0.25 );
 			$.polygon([
 				{ x: -5, y: -10 },
-				{ x: 12, y: 12 },
+				{ x: 10, y: 10 },
 				{ x: -10, y: -5 }
 			]);
 			$.ctx.fill();
@@ -112,11 +112,11 @@ $.hero.prototype.render = function() {
 
 		// right
 		$.ctx.save();
-			$.ctx.translate( this.width / 2, this.height / 2 - 32 );
+			$.ctx.translate( this.width / 2, this.height / 2 - 28 );
 			$.ctx.rotate( Math.sin( $.game.time * 3.5 ) * 0.25 );
 			$.polygon([
 				{ x: -5, y: -10 },
-				{ x: 12, y: 12 },
+				{ x: 10, y: 10 },
 				{ x: -10, y: -5 }
 			]);
 			$.ctx.fill();

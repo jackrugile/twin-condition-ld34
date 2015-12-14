@@ -1,3 +1,27 @@
+@font-face {
+	font-family: 'nexawf';
+	src: url('../fonts/Nexa_Free_Light-webfont.eot');
+	src: url('../fonts/Nexa_Free_Light-webfont.eot?#iefix') format('embedded-opentype'),
+		 url('../fonts/Nexa_Free_Light-webfont.woff2') format('woff2'),
+		 url('../fonts/Nexa_Free_Light-webfont.woff') format('woff'),
+		 url('../fonts/Nexa_Free_Light-webfont.ttf') format('truetype'),
+		 url('../fonts/Nexa_Free_Light-webfont.svg#nexa_lightregular') format('svg');
+	font-weight: normal;
+	font-style: normal;
+}
+
+@font-face {
+	font-family: 'nexawf';
+	src: url('../fonts/Nexa_Free_Bold-webfont.eot');
+	src: url('../fonts/Nexa_Free_Bold-webfont.eot?#iefix') format('embedded-opentype'),
+		 url('../fonts/Nexa_Free_Bold-webfont.woff2') format('woff2'),
+		 url('../fonts/Nexa_Free_Bold-webfont.woff') format('woff'),
+		 url('../fonts/Nexa_Free_Bold-webfont.ttf') format('truetype'),
+		 url('../fonts/Nexa_Free_Bold-webfont.svg#nexa_boldregular') format('svg');
+	font-weight: bold;
+	font-style: normal;
+}
+
 html,
 body {
 	height: 100%;
@@ -7,6 +31,7 @@ body {
 body {
 	background: #eee;
 	background: radial-gradient(#fff 15%, #ccc);
+	font-family: 'nexawf', sans-serif;
 }
 
 canvas {

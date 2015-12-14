@@ -1,2 +1,2 @@
-# Game Name
+# Twin Condition
 ## Ludum Dare 34

@@ -4,8 +4,6 @@ General
 
 ==============================================================================*/
 
-PRIORITY 1
-	single level
 PRIORITY 2
 	level tuning
 	sound effects
@@ -14,15 +12,10 @@ PRIORITY 3
 	browser testing
 	polish
 	particles
-	texture
-	lighting
-	blending
 	level colors
 	screenshake
-
 	juice!
 PRIORITY 4 / LAUNCH
-	name game
 	describe game
 		description
 		goals
