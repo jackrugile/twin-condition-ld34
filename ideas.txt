@@ -4,36 +4,6 @@ Twin Condition
 
 ==============================================================================*/
 
-GAMEPLAY
-	par based, least amount of mistakes (hit by block, missed baddie)
-
-STATES
-	menu/levels
-	play
-	gameover
-	win
-
-ENTITIES
-	hero
-	block
-	enemy
-	bullet
-	particle
-
-DATA
-	levels
-		cols
-		rows
-		hits
-		interval
-		duration
-		color
-
-STORAGE
-	mute
-	time
-	level
-
 LEVELS
 	experiment with more columns, are more columns harder or easier?
 		might have to ramp other properties up to match number of cols
@@ -49,15 +19,15 @@ LEVELS
 AUDIO
 	music
 	block landing
-	block hit head
 	enemy explode
-	enemy hit head/block
 	laser shot
 	move dodger
 	move attacker
 	win
 	lose
-	level select click
+	level cycle
+	level select
+	level can't select
 
 POLISH
 	debris or light particles falling down
@@ -65,15 +35,4 @@ POLISH
 	movement trails for heros and blocks
 	screenshake
 	is it underwanter, with bubbles, and stoof?
-	show level progress bar, or 0/128, something like that
 	quick flash highlight when block or enemy appears on track
-	gamepad controls?
-	change background color with css to match level?
-	on lose
-		explode blocks?
-	on win?
-		move both hero to dead center and make burst of light?
-
-BONUS GOALS
-	stats screen
-	name levels

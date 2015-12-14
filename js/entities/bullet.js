@@ -51,6 +51,7 @@ $.bullet.prototype.step = function() {
 		if( $.colliding( r0, r1 ) ) {
 			this.destroy();
 			$.game.state.bullets.release( this );
+			enemy.explode();
 			enemy.destroy();
 			$.game.state.enemies.release( enemy );
 		}

@@ -25,16 +25,32 @@ $.block.prototype.init = function( opt ) {
 	}
 
 	this.hasLanded = 0;
+	this.landTick = 0;
+	this.landTickMax = 40;
 };
 
 $.block.prototype.step = function() {
+	if( $.game.state.gameoverFlag ) {
+		if( this.moveTween ) {
+			this.moveTween.stop();
+		}
+		if( !this.moveTween2 ) {
+			this.moveTween2 = $.game.tween( this ).to(
+				{
+					y: -100
+				},
+				1,
+				'inOutExpo'
+			);
+		}
+	}
 };
 
 $.block.prototype.render = function() {
 	$.ctx.a( this.alpha );
 
 	// render main block
-	$.ctx.fillStyle ( this.color );
+	$.ctx.fillStyle( this.color );
 	$.ctx.fillRect( this.x, this.y, this.width, this.height );
 
 	// render highlight
@@ -50,6 +66,17 @@ $.block.prototype.render = function() {
 	$.ctx.restore();
 
 	$.ctx.ra();
+
+	// render land light
+	if( this.landTick ) {
+		$.ctx.save();
+		$.ctx.a( this.landTick / this.landTickMax );
+		$.ctx.globalCompositeOperation( 'overlay' );
+		$.ctx.fillStyle( '#fff' );
+		$.ctx.fillRect( this.x, this.y, this.width, this.height );
+		$.ctx.restore();
+		this.landTick--;
+	}
 };
 
 $.block.prototype.destroy = function() {
@@ -77,9 +104,28 @@ $.block.prototype.land = function() {
 			width: this.width,
 			height: this.height
 		});
-		if( this.isFinal ) {
+		if( this.isFinal && !$.game.state.gameoverFlag ) {
 			$.game.state.gamewinFlag = true;
 		}
+
+		for( var i = 0; i < 15; i++ ) {
+			$.game.state.particles.create({
+				x: this.x + $.rand( 0, this.width ),
+				y: this.y + $.rand( 0, this.height ),
+				vx: $.rand( -1, 1 ),
+				vy: $.rand( -2, 2 ),
+				radiusBase: $.rand( 3, 7 ),
+				growth: $.rand( 0.5, 1 ),
+				decay: 0.005,
+				hue: $.game.state.levelData.color,
+				grow: false
+			});
+		}
+
+		$.game.state.shake.translate += 3;
+		$.game.state.shake.rotate += 0.02;
+
+		this.landTick = this.landTickMax;
 
 		this.hasLanded = 1;
 	}

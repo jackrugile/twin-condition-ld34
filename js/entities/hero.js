@@ -40,6 +40,17 @@ $.hero = function( opt ) {
 };
 
 $.hero.prototype.step = function() {
+	if( $.game.state.tick % 20 === 0 ) {
+		$.game.state.bubbles.create({
+			x: this.x + $.rand( -24, 24 ),
+			y: this.y + $.rand( -24, 24 ),
+			radiusBase: $.rand( 2, 5 ),
+			growth: $.rand( 0.5, 1 ),
+			decay: 0.005,
+			hue: this.levelData.color
+		});
+	}
+
 	if( this.type === 1 ) {
 		this.yRender = this.y + Math.sin( $.game.time * 3.5 ) * 6;
 	} else {
@@ -47,23 +58,56 @@ $.hero.prototype.step = function() {
 		this.manageBullets();
 	}
 
-	this.xLerp();
+	if( !$.game.state.gamewinFlag && !$.game.state.gameoverFlag ) {
+		this.xLerp();
 
-	this.collisionRect.x = this.x - this.width / 2 + 10;
-	this.collisionRect.y = this.yRender - this.height / 2 + 10;
+		this.collisionRect.x = this.x - this.width / 2 + 10;
+		this.collisionRect.y = this.yRender - this.height / 2 + 10;
 
-	this.checkCollisions();
+		this.checkCollisions();
+	}
+
+	if( $.game.state.gamewinFlag ) {
+		if( this.rowTween ) {
+			this.rowTween.stop();
+		}
+
+		if( !this.gamewinTween ) {
+			this.gamewinTween = $.game.tween( this ).to(
+				{
+					x: $.game.width / 2,
+					y: $.game.height / 3
+				},
+				0.75,
+				'inOutExpo'
+			);
+		}
+	}
+
+	if( $.game.state.gameoverFlag ) {
+		if( this.rowTween ) {
+			this.rowTween.stop();
+		}
+
+		if( !this.gameoverTween ) {
+			this.gameoverTween = $.game.tween( this ).to(
+				{
+					y: $.game.height + 100
+				},
+				1,
+				'inBack'
+			);
+		}
+	}
 };
 
 $.hero.prototype.render = function() {
 	$.ctx.save();
 		$.ctx.translate( this.x, this.yRender );
-		//$.ctx.translate( this.x, this.y );
+		$.ctx.rotate( Math.cos( $.game.time * 3.5 ) * 0.15 + Math.PI / 4 );
 		if( this.type === 1 ) {
-			$.ctx.rotate( Math.cos( $.game.time * 3.5 ) * 0.15 + Math.PI / 4 );
 			$.ctx.fillStyle( 'hsl(' + this.levelData.color + ', 50%, 55%)' );
 		} else {
-			$.ctx.rotate( Math.cos( $.game.time * 3.5 ) * 0.15 + Math.PI / 4 );
 			$.ctx.fillStyle( '#fff' );
 		}
 
@@ -208,7 +252,7 @@ $.hero.prototype.checkCollisions = function() {
 						w: block.width,
 						h: block.height
 					};
-				if( $.colliding( r0, r1 ) ) {
+				if( $.colliding( r0, r1 ) && !$.game.state.gamewinFlag ) {
 					$.game.state.gameoverFlag = true;
 					return;
 				}
@@ -225,7 +269,7 @@ $.hero.prototype.checkCollisions = function() {
 					w: enemy.width,
 					h: enemy.height
 				};
-			if( $.colliding( r0, r1 ) ) {
+			if( $.colliding( r0, r1 ) && !$.game.state.gamewinFlag ) {
 				$.game.state.gameoverFlag = true;
 				return;
 			}

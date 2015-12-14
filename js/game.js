@@ -5,7 +5,7 @@ Core
 ==============================================================================*/
 
 $.game = playground({
-	width: 960,
+	width: 900,
 	height: 576,
 	scale: 1,
 	smoothing: false
@@ -24,8 +24,7 @@ $.game.create = function() {
 
 	this.unit = 24;
 
-	// default level
-	this.level = 1;
+	// build height
 	this.buildHeight = this.height / 3;
 
 	// images
@@ -45,6 +44,7 @@ $.game.create = function() {
 		'select1'
 	);
 
+	// overlay
 	this.overlayTimer = {
 		current: 0,
 		target: 1,
@@ -52,6 +52,7 @@ $.game.create = function() {
 		max: 5
 	};
 
+	// vignette
 	this.vignetteGradient = $.ctx.createRadialGradient(
 		this.width / 2,
 		this.height / 2,
@@ -62,9 +63,30 @@ $.game.create = function() {
 	);
 	this.vignetteGradient.addColorStop( 0, 'hsla(0, 0%, 100%, 1)' );
 	this.vignetteGradient.addColorStop( 1, 'hsla(0, 0%, 0%, 1)' );
+
+	// level menu tracking
+	this.cameFromLevel = null
+	this.cameFromLevelWin = null;
+
+	// storage
+	$.storage = new $.storage( 'twincondition' );
+
+	if( $.isObjEmpty( $.storage.obj ) ) {
+		$.storage.set( 'mute', 0 );
+		$.storage.set( 'level', -1 );
+	}
+
+	if( $.storage.get( 'mute' ) ) {
+		this.sound.setMaster( 0 );
+		this.music.setMaster( 0 );
+	} else {
+		this.sound.setMaster( 1 );
+		this.music.setMaster( 0.5 );
+	}
 };
 
 $.game.ready = function() {
+	//this.music.play( 'music', true );
 	this.setState( $.stateMenu );
 };
 
@@ -73,11 +95,21 @@ $.game.step = function( dt ) {
 };
 
 $.game.mousedown = function( e ) {
-	// game wide mousedown
 };
 
 $.game.keydown = function( e ) {
-	// game wide keydown
+	if( e.key == 'm' ) {
+		var muted = $.storage.get( 'mute' );
+		if( muted ) {
+			$.storage.set( 'mute', 0 );
+			this.sound.setMaster( 1 );
+			this.music.setMaster( 0.5 );
+		} else {
+			$.storage.set( 'mute', 1 );
+			this.sound.setMaster( 0 );
+			this.music.setMaster( 0 );
+		}
+	}
 };
 
 /*==============================================================================

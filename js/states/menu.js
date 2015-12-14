@@ -5,21 +5,44 @@ $.stateMenu.create = function() {
 
 $.stateMenu.enter = function() {
 	$.ctx.textBaseline( 'middle' );
-	$.ctx.textAlign( 'left' );
 
 	this.titleColor = '#555';
 	this.textColor = '#777';
 
-	this.levelSelected = 0;
+	/*if( $.game.cameFromLevel !== null && $.game.cameFromLevel > -1 ) {
+		if( $.game.cameFromLevelWin ) {
+			if( $.game.cameFromLevel < 8 ) {
+				this.levelSelected = $.game.cameFromLevel + 1;
+			} else {
+				this.levelSelected = $.game.cameFromLevel;
+			}
+		} else {
+			this.levelSelected = $.game.cameFromLevel;
+		}
+	} else {
+		this.levelSelected = 0;
+	}*/
+
+	this.level = Math.min( $.levels.length - 1, $.storage.get( 'level' ) + 1 );
+	this.levelSelected = this.level
+
+	$.game.level = this.levelSelected;
 	this.levelButtons = new $.group();
 	this.createLevelButtons();
+
+	// setup bubbles
+	this.bubbles = new $.pool( $.bubble, 200 );
 }
 
 $.stateMenu.leave = function() {
+	this.bubbles.each( 'destroy' );
+	this.bubbles.empty();
+	this.bubbles = null;
 };
 
 $.stateMenu.step = function() {
 	this.levelButtons.each( 'step' );
+	this.bubbles.each( 'step' );
 };
 
 $.stateMenu.render = function() {
@@ -29,6 +52,7 @@ $.stateMenu.render = function() {
 	this.renderRight();
 
 	this.levelButtons.each( 'render' );
+	this.bubbles.each( 'render' );
 
 	$.game.renderOverlay();
 };
@@ -52,7 +76,7 @@ $.stateMenu.keydown = function( e ) {
 $.stateMenu.createLevelButtons = function() {
 	var size = 48,
 		gap = 130,
-		xOffset = $.game.width / 2 + 110,
+		xOffset = $.game.width / 2 + 95,
 		yOffset = 158,
 		cols = 3,
 		rows = 3,
@@ -66,8 +90,8 @@ $.stateMenu.createLevelButtons = function() {
 				height = size,
 				color = $.levels[ idx ].color,
 				selected = ( idx === this.levelSelected ),
-				available = idx < 6,
-				completed = idx < 3;
+				available = idx <= $.storage.get( 'level' ) + 1,
+				completed = idx <= $.storage.get( 'level' );
 
 			this.levelButtons.push( new $.levelButton({
 				idx: idx,
@@ -87,7 +111,7 @@ $.stateMenu.createLevelButtons = function() {
 
 $.stateMenu.cycleLevel = function() {
 	var sound = $.game.playSound( 'select1' );
-	$.game.sound.setVolume( sound, 1 );
+	$.game.sound.setVolume( sound, 0.5 );
 	$.game.sound.setPlaybackRate( sound, 1 );
 	this.levelButtons.getAt( this.levelSelected ).selected = false;
 	if( this.levelSelected === 8 ) {
@@ -95,10 +119,27 @@ $.stateMenu.cycleLevel = function() {
 	} else {
 		this.levelSelected++;
 	}
-	this.levelButtons.getAt( this.levelSelected ).selected = true;
+
+	var levelButtonRef = this.levelButtons.getAt( this.levelSelected );
+	levelButtonRef.selected = true;
+
+	for( var i = 0; i < 10; i++ ) {
+		$.game.state.bubbles.create({
+			x: levelButtonRef.x + $.rand( -36, 36 ),
+			y: levelButtonRef.y + $.rand( -36, 36 ),
+			radiusBase: $.rand( 1, 4 ),
+			growth: $.rand( 0.5, 1 ),
+			decay: 0.015,
+			hue: $.levels[ this.levelSelected ].color
+		});
+	}
 };
 
 $.stateMenu.selectLevel = function() {
+	if( this.levelSelected <= $.storage.get( 'level' ) + 1 ) {
+		$.game.level = this.levelSelected;
+		$.game.setState( $.statePlay );
+	}
 };
 
 $.stateMenu.renderLeft = function() {
@@ -114,12 +155,14 @@ $.stateMenu.renderLeft = function() {
 	$.ctx.fillStyle( 'hsl(0, 0%, 88%)' );
 	$.ctx.fillRect( 0, $.game.unit * 18, $.game.width, $.game.unit * 6 );
 
+	$.ctx.textAlign( 'left' );
+
 	// title text
-	$.ctx.font( 'bold 46px nexawf' );
+	$.ctx.font( 'bold 43px nexawf' );
 	$.ctx.fillStyle( this.titleColor );
-	$.ctx.fillText( 'TWIN', 40, 51 );
-	$.ctx.font( 'normal 46px nexawf' );
-	$.ctx.fillText( 'CONDITION', 175, 51 );
+	$.ctx.fillText( 'TWIN', 40, 50 );
+	$.ctx.font( 'normal 43px nexawf' );
+	$.ctx.fillText( 'CONDITION', 170, 50 );
 
 	// controls text
 	$.ctx.font( 'bold 22px nexawf' );

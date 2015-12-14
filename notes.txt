@@ -12,7 +12,6 @@ PRIORITY 3
 	browser testing
 	polish
 	particles
-	level colors
 	screenshake
 	juice!
 PRIORITY 4 / LAUNCH

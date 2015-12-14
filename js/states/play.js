@@ -6,7 +6,7 @@ $.statePlay.create = function() {
 $.statePlay.enter = function() {
 	// get current level
 	this.levelCurrent = $.game.level;
-	this.levelData = $.levels[ this.levelCurrent - 1 ];
+	this.levelData = $.levels[ this.levelCurrent ];
 
 	// setup rows
 	this.rowCurrent = 0;
@@ -16,7 +16,7 @@ $.statePlay.enter = function() {
 	this.resetRowState();
 
 	// setup blocks
-	this.blockTimer = this.levelData.interval.block;
+	this.blockTimer = 0;
 	this.blocksCreated = 0;
 	this.blocksTotal = this.levelData.rows * this.levelData.cols;
 	this.blockWidth = ( $.game.width / 2 ) / this.levelData.cols;
@@ -24,7 +24,7 @@ $.statePlay.enter = function() {
 	this.blocks = new $.pool( $.block, this.blocksTotal * 2 );
 
 	// setup enemies
-	this.enemyTimer = this.levelData.interval.enemy;
+	this.enemyTimer = 0;
 	this.enemiesCreated = 0;
 	this.enemies = new $.pool( $.enemy, this.blocksTotal * 2 );
 
@@ -91,11 +91,26 @@ $.statePlay.enter = function() {
 	this.blockGradient.addColorStop( 0, 'hsla(0, 0%, 100%, 0.3)' );
 	this.blockGradient.addColorStop( 1, 'hsla(0, 0%, 100%, 0)' );
 
+	// setup particles
+	this.particles = new $.pool( $.particle, 200 );
+
+	// setup bubbles
+	this.bubbles = new $.pool( $.bubble, 200 );
+
+	// screen shake
+	this.shake = {
+		translate: 0,
+		rotate: 0
+	};
+
 	// game status
 	this.gamewinFlag = false;
 	this.gameoverFlag = false;
 	this.gamewinActive = false;
 	this.gameoverActive = false;
+
+	this.tick = 0;
+	this.endTick = 0;
 }
 
 $.statePlay.leave = function() {
@@ -103,16 +118,22 @@ $.statePlay.leave = function() {
 	this.blocks.each( 'destroy' );
 	this.enemies.each( 'destroy' );
 	this.bullets.each( 'destroy' );
+	this.particles.each( 'destroy' );
+	this.bubbles.each( 'destroy' );
 	this.hero1.destroy();
 	this.hero2.destroy();
 
 	this.blocks.empty();
 	this.enemies.empty();
 	this.bullets.empty();
+	this.particles.empty();
+	this.bubbles.empty();
 
 	this.blocks = null;
 	this.enemies = null;
 	this.bullets = null;
+	this.particles = null;
+	this.bubbles = null;
 	this.hero1 = null;
 	this.hero2 = null;
 	this.swapGradient = null;
@@ -122,6 +143,8 @@ $.statePlay.leave = function() {
 };
 
 $.statePlay.step = function() {
+	this.handleScreenShake();
+
 	if( this.gamewinFlag && !this.gamewinActive ) {
 		this.gamewin();
 	}
@@ -136,25 +159,42 @@ $.statePlay.step = function() {
 	this.blocks.each( 'step' );
 	this.enemies.each( 'step' );
 	this.bullets.each( 'step' );
+	this.particles.each( 'step' );
+	this.bubbles.each( 'step' );
 	this.hero1.step();
 	this.hero2.step();
+
+	if( this.gameoverFlag || this.gamewinFlag ) {
+		this.endTick++;
+	}
+
+	this.tick++;
 };
 
 $.statePlay.render = function() {
-	$.ctx.clear( '#fff' );
-
 	this.renderBackground();
-	
-	this.blocks.each( 'render' );
-	this.enemies.each( 'render' );
-	this.bullets.each( 'render' );
-	this.hero1.render();
-	this.hero2.render();
 
+	$.ctx.save();
+		if( !this.paused && ( this.shake.translate || this.shake.rotate ) ) {
+			$.ctx.translate( $.game.width / 2 + $.rand( -this.shake.translate, this.shake.translate ), $.game.height / 2 + $.rand( -this.shake.translate, this.shake.translate ) );
+			$.ctx.rotate( $.rand( -this.shake.rotate, this.shake.rotate ) );
+			$.ctx.translate( -$.game.width / 2 + $.rand( -this.shake.translate, this.shake.translate ) , -$.game.height / 2 + $.rand( -this.shake.translate, this.shake.translate ));
+		}
+
+		this.blocks.each( 'render' );
+		this.enemies.each( 'render' );
+		this.bullets.each( 'render' );
+		this.particles.each( 'render' );
+		this.bubbles.each( 'render' );
+		this.hero1.render();
+		this.hero2.render();
+	$.ctx.restore();
 
 	$.game.renderOverlay();
 
 	this.renderForeground();
+
+	this.renderEnd();
 };
 
 $.statePlay.mousedown = function( e ) {
@@ -170,6 +210,17 @@ $.statePlay.keydown = function( e ) {
 		this.hero1.move();
 	} else if( e.key == 'd' || e.key == 'right' ) {
 		this.hero2.move();
+	}
+};
+
+
+$.statePlay.handleScreenShake = function() {
+	if( this.shake.translate > 0 ) {
+		this.shake.translate *= 0.92;
+	}
+
+	if( this.shake.rotate > 0 ) {
+		this.shake.rotate *= 0.92;
 	}
 };
 
@@ -284,12 +335,25 @@ $.statePlay.manageEnemies = function() {
 
 $.statePlay.gamewin = function() {
 	this.gamewinActive = true;
-	console.log( 'Level Completed' );
+	$.game.cameFromLevel = this.levelCurrent;
+	$.game.cameFromLevelWin = true;
+	if( this.levelCurrent > $.storage.get( 'level' ) ) {
+		$.storage.set( 'level', this.levelCurrent );
+	}
+	setTimeout( function() {
+		$.game.setState( $.stateMenu );
+	}, 1500 );
 };
 
 $.statePlay.gameover = function() {
 	this.gameoverActive = true;
-	$.game.setState( $.statePlay );
+	$.game.cameFromLevel = this.levelCurrent;
+	$.game.cameFromLevelWin = false;
+	$.game.state.shake.translate += 3;
+	$.game.state.shake.rotate += 0.02;
+	setTimeout( function() {
+		$.game.setState( $.stateMenu );
+	}, 1500 );
 };
 
 $.statePlay.renderBackground = function() {
@@ -358,3 +422,18 @@ $.statePlay.renderForeground = function() {
 	$.ctx.fillRect( 0, 0, $.game.width, $.game.height );
 	$.ctx.restore();
 };
+
+$.statePlay.renderEnd = function() {
+	if( this.gameoverFlag || this.gamewinFlag ) {
+		if( this.gameoverFlag ) {
+			$.ctx.fillStyle( '#f00' );
+		} else if( this.gamewinFlag ) {
+			$.ctx.fillStyle( '#fff' );
+		}
+		$.ctx.save();
+		$.ctx.a( Math.min( 1, this.endTick / 100 ) );
+		$.ctx.globalCompositeOperation( 'color' );
+		$.ctx.fillRect( 0, 0, $.game.width, $.game.height );
+		$.ctx.restore();
+	}
+}
