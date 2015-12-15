@@ -42,8 +42,16 @@ $.game.create = function() {
 
 	// sounds
 	this.loadSounds(
+		'music',
 		'move1',
-		'select1'
+		'select1',
+		'block1',
+		'enemy1',
+		'shoot1',
+		'gamewin1',
+		'gameover1',
+		'select1',
+		'no-select1'
 	);
 
 	// overlay
@@ -83,12 +91,12 @@ $.game.create = function() {
 		this.music.setMaster( 0 );
 	} else {
 		this.sound.setMaster( 1 );
-		this.music.setMaster( 0.5 );
+		this.music.setMaster( 0.3 );
 	}
 };
 
 $.game.ready = function() {
-	//this.music.play( 'music', true );
+	this.music.play( 'music', true );
 	this.setState( $.stateMenu );
 };
 
@@ -105,7 +113,7 @@ $.game.keydown = function( e ) {
 		if( muted ) {
 			$.storage.set( 'mute', 0 );
 			this.sound.setMaster( 1 );
-			this.music.setMaster( 0.5 );
+			this.music.setMaster( 0.3 );
 		} else {
 			$.storage.set( 'mute', 1 );
 			this.sound.setMaster( 0 );
@@ -146,15 +154,17 @@ $.game.renderOverlay = function() {
 	$.ctx.drawImage( this.images[ 'overlay' + ( this.overlayTimer.index + 1 ) ], 0, 0 );
 	$.ctx.ra();
 
-	$.ctx.save();
-	$.ctx.a( 0.75 );
-	$.ctx.globalCompositeOperation( 'overlay' );
-	$.ctx.drawImage( this.images[ 'specks1' ], 0, 0 );
-	$.ctx.restore();
+	if( window.chrome ) {
+		$.ctx.save();
+		$.ctx.a( 0.75 );
+		$.ctx.globalCompositeOperation( 'overlay' );
+		$.ctx.drawImage( this.images[ 'specks1' ], 0, 0 );
+		$.ctx.restore();
 
-	$.ctx.save();
-	$.ctx.globalCompositeOperation( 'overlay' );
-	$.ctx.fillStyle( this.vignetteGradient );
-	$.ctx.fillRect( 0, 0, this.width, this.height );
-	$.ctx.restore();
+		$.ctx.save();
+		$.ctx.globalCompositeOperation( 'overlay' );
+		$.ctx.fillStyle( this.vignetteGradient );
+		$.ctx.fillRect( 0, 0, this.width, this.height );
+		$.ctx.restore();
+	}
 };

@@ -208,12 +208,8 @@ $.hero.prototype.setXTarget = function( xForce ) {
 $.hero.prototype.move = function() {
 	if( !$.game.state.gameoverFlag && !$.game.state.gamewinFlag ) {
 		var sound = $.game.playSound( 'move1' );
-		$.game.sound.setVolume( sound, 1 );
-		if( this.type === 1 ) {
-			$.game.sound.setPlaybackRate( sound, $.rand( 0.8, 1.2 ) );
-		} else {
-			$.game.sound.setPlaybackRate( sound, $.rand( 0.8, 1.2 ) );
-		}
+		$.game.sound.setVolume( sound, 1.3 );
+		$.game.sound.setPlaybackRate( sound, $.rand( 0.8, 1.2 ) );
 	}
 
 	if( this.type === 1 ) {
@@ -301,6 +297,9 @@ $.hero.prototype.manageBullets = function() {
 	if( !$.game.state.gamewinFlag && !$.game.state.gameoverFlag ) {
 		this.shootTimer += $.game.dtMs;
 		if( this.shootTimer >= this.shootInterval ) {
+			var sound = $.game.playSound( 'shoot1' );
+			$.game.sound.setVolume( sound, 0.4 );
+			$.game.sound.setPlaybackRate( sound, $.rand( 0.8, 1.2 ) );
 			$.game.state.bullets.create({
 				x: this.x - 4,
 				y: this.y,

@@ -4,7 +4,6 @@ $.stateMenu.create = function() {
 };
 
 $.stateMenu.enter = function() {
-	$.ctx.textBaseline( 'middle' );
 
 	this.titleColor = '#555';
 	this.textColor = '#777';
@@ -111,7 +110,7 @@ $.stateMenu.createLevelButtons = function() {
 
 $.stateMenu.cycleLevel = function() {
 	var sound = $.game.playSound( 'select1' );
-	$.game.sound.setVolume( sound, 0.5 );
+	$.game.sound.setVolume( sound, 0.3 );
 	$.game.sound.setPlaybackRate( sound, 1 );
 	this.levelButtons.getAt( this.levelSelected ).selected = false;
 	if( this.levelSelected === 8 ) {
@@ -138,10 +137,14 @@ $.stateMenu.cycleLevel = function() {
 $.stateMenu.selectLevel = function() {
 	if( this.levelSelected <= $.storage.get( 'level' ) + 1 || $.game.isDev ) {
 		var sound = $.game.playSound( 'select1' );
-		$.game.sound.setVolume( sound, 0.5 );
+		$.game.sound.setVolume( sound, 0.3 );
 		$.game.sound.setPlaybackRate( sound, 1.25 );
 		$.game.level = this.levelSelected;
 		$.game.setState( $.statePlay );
+	} else {
+		var sound = $.game.playSound( 'no-select1' );
+		$.game.sound.setVolume( sound, 0.6 );
+		$.game.sound.setPlaybackRate( sound, 1 );
 	}
 };
 
@@ -159,6 +162,7 @@ $.stateMenu.renderLeft = function() {
 	$.ctx.fillRect( 0, $.game.unit * 18, $.game.width, $.game.unit * 6 );
 
 	$.ctx.textAlign( 'left' );
+	$.ctx.textBaseline( 'middle' );
 
 	// title text
 	$.ctx.font( 'bold 43px nexawf' );

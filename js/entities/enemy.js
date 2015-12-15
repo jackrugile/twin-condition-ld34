@@ -71,6 +71,10 @@ $.enemy.prototype.step = function() {
 };
 
 $.enemy.prototype.explode = function() {
+	var sound = $.game.playSound( 'enemy1' );
+	$.game.sound.setVolume( sound, 0.5 );
+	$.game.sound.setPlaybackRate( sound, $.rand( 0.8, 1 ) );
+
 	for( var i = 0; i < 15; i++ ) {
 		$.game.state.particles.create({
 			x: this.x + this.width / 2 + $.rand( -this.width / 2, this.width / 2 ),

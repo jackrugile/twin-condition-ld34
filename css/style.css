@@ -29,8 +29,10 @@ body {
 }
 
 body {
-	background: #eee;
-	background: radial-gradient(#fff 15%, #ccc);
+	/*background: #eee;
+	background: radial-gradient(#fff 15%, #ccc);*/
+	background: #111;
+	background: radial-gradient(#444, #111);
 	font-family: 'nexawf', sans-serif;
 }
 
@@ -40,7 +42,8 @@ canvas {
 	background: #fff;
 	bottom: 0;
 	/*box-shadow: 0 0 0 10px rgba(255, 255, 255, 0.15);*/
-	box-shadow: 0 0 0 12px #fff, 0 25px 40px -10px rgba(0, 0, 0, 0.3);
+	/*box-shadow: 0 0 0 12px #fff, 0 25px 40px -10px rgba(0, 0, 0, 0.3);*/
+	box-shadow: 0 0 0 12px #fff;
 	left: 0;
 	margin: auto;
 	position: absolute;

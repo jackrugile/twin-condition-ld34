@@ -191,8 +191,9 @@ $.statePlay.render = function() {
 	$.ctx.restore();
 
 	$.game.renderOverlay();
-
-	this.renderForeground();
+	if( window.chrome ) {
+		this.renderForeground();
+	}
 
 	this.renderEnd();
 };
@@ -334,6 +335,9 @@ $.statePlay.manageEnemies = function() {
 };
 
 $.statePlay.gamewin = function() {
+	var sound = $.game.playSound( 'gamewin1' );
+	$.game.sound.setVolume( sound, 0.8 );
+	$.game.sound.setPlaybackRate( sound, 1 );
 	this.gamewinActive = true;
 	$.game.cameFromLevel = this.levelCurrent;
 	$.game.cameFromLevelWin = true;
@@ -346,6 +350,9 @@ $.statePlay.gamewin = function() {
 };
 
 $.statePlay.gameover = function() {
+	var sound = $.game.playSound( 'gameover1' );
+	$.game.sound.setVolume( sound, 0.8 );
+	$.game.sound.setPlaybackRate( sound, 1 );
 	this.gameoverActive = true;
 	$.game.cameFromLevel = this.levelCurrent;
 	$.game.cameFromLevelWin = false;

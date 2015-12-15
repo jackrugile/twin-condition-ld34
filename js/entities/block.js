@@ -71,7 +71,9 @@ $.block.prototype.render = function() {
 	if( this.landTick ) {
 		$.ctx.save();
 		$.ctx.a( this.landTick / this.landTickMax );
-		$.ctx.globalCompositeOperation( 'overlay' );
+		if( window.chrome ) {
+			$.ctx.globalCompositeOperation( 'overlay' );
+		}
 		$.ctx.fillStyle( '#fff' );
 		$.ctx.fillRect( this.x, this.y, this.width, this.height );
 		$.ctx.restore();
@@ -90,7 +92,11 @@ $.block.prototype.destroy = function() {
 }
 
 $.block.prototype.land = function() {
-	if( this.type === 1 && !$.game.state.gameoverFlag ) {
+	if( this.type === 1 && !$.game.state.gameoverFlag && !$.game.state.gamewinFlag ) {
+		var sound = $.game.playSound( 'block1' );
+		$.game.sound.setVolume( sound, 0.7 );
+		$.game.sound.setPlaybackRate( sound, 0.4 + ( this.number / $.game.state.blocksTotal ) * 0.6 );
+
 		if( this.number % $.game.state.levelData.cols === 0 ) {
 			$.game.state.hero1.advanceRow();
 			$.game.state.hero2.advanceRow();

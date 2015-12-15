@@ -36,6 +36,7 @@ $.levelButton.prototype.render = function() {
 
 	$.ctx.font( 'bold 22px nexawf' );
 	$.ctx.textAlign( 'center' );
+	$.ctx.textBaseline( 'middle' );
 	if( this.completed ) {
 		$.ctx.fillStyle( '#fff' );
 		$.ctx.fillRect( -this.width / 2, -this.height / 2, this.width, this.height );
