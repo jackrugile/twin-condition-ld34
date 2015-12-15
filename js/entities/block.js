@@ -93,9 +93,11 @@ $.block.prototype.destroy = function() {
 
 $.block.prototype.land = function() {
 	if( this.type === 1 && !$.game.state.gameoverFlag && !$.game.state.gamewinFlag ) {
+		$.game.state.progress = this.number / $.game.state.blocksTotal;
+
 		var sound = $.game.playSound( 'block1' );
 		$.game.sound.setVolume( sound, 0.7 );
-		$.game.sound.setPlaybackRate( sound, 0.4 + ( this.number / $.game.state.blocksTotal ) * 0.6 );
+		$.game.sound.setPlaybackRate( sound, 0.4 + $.game.state.progress * 0.6 );
 
 		if( this.number % $.game.state.levelData.cols === 0 ) {
 			$.game.state.hero1.advanceRow();

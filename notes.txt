@@ -4,23 +4,31 @@ General
 
 ==============================================================================*/
 
-PRIORITY 4 / LAUNCH
-	describe game
-		description
-		goals
-		controls
-		misc notes
-		dev tech
-	upload to github
-	upload to jackrugile
-	post ludum dare submission blog post
-	screenshots
-	video demo
-	post mortem blog post
-	vote on games!
-	message to rezoner
+description
+controls
+objectives
+misc notes
+dev tech
 
-POLISH
-	add color to menu screen if all levels are beaten
-	progress indicator ( number and line )
-	double check levels
+upload to github
+upload to jackrugile
+post ludum dare submission blog post
+screenshots
+video demo
+post mortem blog post
+vote on games!
+message to rezoner
+
+
+
+
+
+
+
+
+
+
+
+
+
+

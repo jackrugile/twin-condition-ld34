@@ -1,17 +1,3 @@
-/*
-	1 - 3 col | 3 tall
-	2 - 3 col | 4 tall
-	3 - 3 col | 6 tall
-	4 - 4 col | 3 tall
-	5 - 4 col | 4 tall
-	6 - 4 col | 6 tall
-	7 - 5 col | 4 tall
-	8 - 5 col | 6 tall
-	9 - 5 col | 12 tall
-
-	send two enemies at a time?
-*/
-
 $.levels = [
 	// level 1
 	{

@@ -7,6 +7,8 @@ $.statePlay.enter = function() {
 	// get current level
 	this.levelCurrent = $.game.level;
 	this.levelData = $.levels[ this.levelCurrent ];
+	this.progress = 0;
+	this.progressDisplay = 0;
 
 	// setup rows
 	this.rowCurrent = 0;
@@ -168,6 +170,8 @@ $.statePlay.step = function() {
 		this.endTick++;
 	}
 
+	this.progressDisplay += ( this.progress - this.progressDisplay ) * 0.1;
+
 	this.tick++;
 };
 
@@ -189,6 +193,8 @@ $.statePlay.render = function() {
 		this.hero1.render();
 		this.hero2.render();
 	$.ctx.restore();
+
+	this.renderProgress();
 
 	$.game.renderOverlay();
 	if( window.chrome ) {
@@ -443,4 +449,12 @@ $.statePlay.renderEnd = function() {
 		$.ctx.fillRect( 0, 0, $.game.width, $.game.height );
 		$.ctx.restore();
 	}
-}
+};
+
+$.statePlay.renderProgress = function() {
+	$.ctx.font( 'bold 14px nexawf' );
+	$.ctx.textAlign( 'right' );
+	$.ctx.textBaseline( 'middle' );
+	$.ctx.fillStyle( '#fff' );
+	$.ctx.fillText( Math.ceil( this.progressDisplay * 100 ) + '%', $.game.width - 19, 25 );
+};
